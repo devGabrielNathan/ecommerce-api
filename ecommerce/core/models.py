@@ -2,6 +2,8 @@ from uuid import uuid4
 
 from django.db import models
 
+from ecommerce.users.models import User
+
 
 # Create your models here.
 class Address(models.Model):
@@ -45,6 +47,11 @@ class Address(models.Model):
         null=False,
         blank=False
     )
+    user = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        related_name='addresses'
+    )
 
     def __str__(self) -> str:
         if not self.complement:
@@ -68,6 +75,7 @@ class Phone(models.Model):
     )
     DDD = models.CharField(
         max_length=3,
+        default='21',
         null=False,
         blank=False
     )
@@ -75,6 +83,11 @@ class Phone(models.Model):
         max_length=9,
         null=False,
         blank=False
+    )
+    user = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        related_name='phones',
     )
 
     def __str__(self) -> str:
