@@ -76,7 +76,7 @@ class Phone(models.Model):
         null=False,
         blank=False
     )
-        
+
     def __str__(self) -> str:
         if self.DDD.startswith('0'):
             self.DDD = self.DDD[1:]

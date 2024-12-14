@@ -1,39 +1,66 @@
-from uuid import uuid4
+# from uuid import uuid4
 
-from django.db import models
-
-
-# Create your models here.
-class Order(models.Model):
-    uuid = models.UUIDField(
-        primary_key=True,
-        default=uuid4,
-        editable=False
-    )
+# from django.db import models
+# from ecommerce.products.models import Product
 
 
-
-    def __str__(self) -> str:
-        ...
-
-
-    class Meta:
-        verbose_name = 'Order'
-        verbose_name_plural = 'Orders'
-
-
-class OrderItem(models.Model):
-    uuid = models.UUIDField(
-        primary_key=True,
-        default=uuid4,
-        editable=False
-    )
+# # Create your models here.
+# class Order(models.Model):
+#     uuid = models.UUIDField(
+#         primary_key=True,
+#         default=uuid4,
+#         editable=False
+#     )
+#     quantity = models.PositiveIntegerField(
+#         default=1,
+#     )
 
 
-    def __str__(self) -> str:
-        ...
+#     def __str__(self) -> str:
+#         ...
 
 
-    class Meta:
-        verbose_name = 'Order'
-        verbose_name_plural = 'Orders'
+#     class Meta:
+#         verbose_name = 'Order'
+#         verbose_name_plural = 'Orders'
+
+
+# class OrderItem(models.Model):
+#     uuid = models.UUIDField(
+#         primary_key=True,
+#         default=uuid4,
+#         editable=False
+#     )
+#     order = models.ForeignKey(
+
+#     )
+#     product = models.ForeignKey(
+#         Product,
+#         on_delete=models.PROTECT,
+#     )
+
+
+#     def __str__(self) -> str:
+#         ...
+
+
+#     class Meta:
+#         verbose_name = 'OrderItem'
+#         verbose_name_plural = 'OrderItems'
+
+
+# class Payment(models.Model):
+#     uuid = models.UUIDField(
+#         primary_key=True,
+#         default=uuid4,
+#         editable=False
+#     )
+
+
+#     def __str__(self) -> str:
+#         ...
+
+
+#     class Meta:
+#         verbose_name = 'Payment'
+#         verbose_name_plural = 'Payments'
