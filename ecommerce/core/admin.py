@@ -8,7 +8,12 @@ from .models import Address, Phone
 class AddressAdmin(admin.ModelAdmin):
     ...
 
+class AddressInline(admin.TabularInline):
+    model = Address
 
 @admin.register(Phone)
 class PhoneAdmin(admin.ModelAdmin):
     ...
+
+class PhoneInline(admin.TabularInline):
+    model = Phone
