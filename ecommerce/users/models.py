@@ -1,36 +1,63 @@
 from uuid import uuid4
 
+from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, UserManager
+from django.contrib.auth.validators import UnicodeUsernameValidator
 from django.db import models
-from django.contrib.auth.models import AbstractUser
+from django.utils import timezone
+from django.utils.translation import gettext_lazy as _
 
 
 # Create your models here.
-class User(AbstractUser):
+class User(AbstractBaseUser, PermissionsMixin):
+    """
+    An abstract base class implementing a fully featured User model with admin-compliant permissions. Username and password are required. Other fields are optional.
+    """
+
     uuid = models.UUIDField(
         primary_key=True,
         default=uuid4,
         editable=False
     )
-    name = models.CharField(
-        max_length=255,
-        null=False,
-        blank=False
+    username = models.CharField(
+        _("username"),
+        max_length=150,
+        unique=True,
+        help_text=_(
+            "Required. 150 characters or fewer. Letters, digits and @/./+/-/_ only."
+        ),
+        validators=[UnicodeUsernameValidator],
+        error_messages={
+            "unique": _("A user with that username already exists."),
+        },
     )
     email = models.EmailField(
-        max_length=255,
-        null=False,
-        blank=False
+        _("email address"),
+        max_length=150
     )
-    password = models.CharField(
-        max_length=128,
-        null=False,
-        blank=False
+    is_staff = models.BooleanField(
+        _("staff status"),
+        default=False,
+        help_text=_("Designates whether the user can log into this admin site."),
+    )
+    is_active = models.BooleanField(
+        _("active"),
+        default=True,
+        help_text=_(
+            "Designates whether this user should be treated as active. "
+            "Unselect this instead of deleting accounts."
+        ),
+    )
+    date_joined = models.DateTimeField(
+        _("date joined"),
+        default=timezone.now
     )
 
+    objects = UserManager()
 
-    def __str__(self):
-        return f"{self.name}"
-    
+    # EMAIL_FIELD = "email"
+    USERNAME_FIELD = "username"
+    REQUIRED_FIELDS = ["email"]
+
     class Meta:
-        verbose_name = 'User'
-        verbose_name_plural = 'Users'
+        verbose_name = _("user")
+        verbose_name_plural = _("users")
