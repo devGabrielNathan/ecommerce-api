@@ -42,7 +42,9 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 ]
 
-THIRD_PARTY_APPS = []
+THIRD_PARTY_APPS = [
+    'rest_framework'
+]
 
 LOCAL_APPS = [
     'ecommerce.core.apps.CoreConfig',

@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Address, Phone
+from ecommerce.core.models import Address, Phone
 
 
 # Register your models here.
@@ -28,7 +28,7 @@ class AddressAdmin(admin.ModelAdmin):
         'complement',
         'cep',
     )
-    ordering = ('email',)
+    ordering = ('state',)
     search_fields = (
         'username',
         'email',
@@ -56,7 +56,7 @@ class PhoneAdmin(admin.ModelAdmin):
         'user',
         'supplier',
     )
-    ordering = ('email',)
+    ordering = ('DDD',)
     search_fields = (
         'number',
         'user',
