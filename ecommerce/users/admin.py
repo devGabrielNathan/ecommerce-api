@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from ..core.admin import SupplierAddressInline, SupplierPhoneInline, UserAddressInline, UserPhoneInline
+from ..core.admin import AddressInline, PhoneInline
 from .models import Supplier, User
 
 
@@ -35,8 +35,8 @@ class UserAdmin(admin.ModelAdmin):
         'email',
     )
     inlines = [
-        UserAddressInline,
-        UserPhoneInline
+        AddressInline,
+        PhoneInline
     ]
     list_max_show_all = 100
 
@@ -46,7 +46,6 @@ class SupplierAdmin(admin.ModelAdmin):
     fields = (
         'email',
         'username',
-        'password',
         'is_active',
     )
     list_filter = (
@@ -65,7 +64,7 @@ class SupplierAdmin(admin.ModelAdmin):
         'email',
     )
     inlines = [
-        SupplierAddressInline,
-        SupplierPhoneInline
+        AddressInline,
+        PhoneInline
     ]
     list_max_show_all = 100

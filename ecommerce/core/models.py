@@ -47,6 +47,16 @@ class Address(models.Model):
         null=False,
         blank=False
     )
+    user = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        related_name='address'
+    )
+    supplier = models.ForeignKey(
+        Supplier,
+        on_delete=models.CASCADE,
+        related_name='address'
+    )
 
     class Meta:
         db_table = 'address'
@@ -58,8 +68,7 @@ class Address(models.Model):
             address = f"{self.street} - {self.neighborhood}, {self.city} - {self.state}, {self.cep}"
 
         else:
-            address = f"{self.street}, {self.number}, {self.complement},
-            {self.neighborhood}, {self.city} - {self.state}, {self.cep}"
+            address = f"{self.street}, {self.number}, {self.complement}, {self.neighborhood}, {self.city} - {self.state}, {self.cep}"
 
         return address
 
