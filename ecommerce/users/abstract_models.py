@@ -6,33 +6,23 @@ from django.utils.translation import gettext_lazy as _
 
 
 class AbstractCommonInfo(models.Model):
-    uuid = models.UUIDField(
-        primary_key=True,
-        default=uuid4,
-        editable=False
-    )
+    uuid = models.UUIDField(primary_key=True, default=uuid4, editable=False)
     username = models.CharField(
-        _("username"),
+        _('username'),
         max_length=150,
         unique=True,
-        help_text=_(
-            "Required. 150 characters or fewer. Letters, digits and @/./+/-/_ only."
-        ),
+        help_text=_('Required. 150 characters or fewer. Letters, digits and @/./+/-/_ only.'),
         validators=[UnicodeUsernameValidator],
         error_messages={
-            "unique": _("A user with that username already exists."),
+            'unique': _('A user with that username already exists.'),
         },
     )
-    email = models.EmailField(
-        _("email address"),
-        max_length=150
-    )
+    email = models.EmailField(_('email address'), max_length=150)
     is_active = models.BooleanField(
-        _("active"),
+        _('active'),
         default=True,
         help_text=_(
-            "Designates whether this user should be treated as active. "
-            "Unselect this instead of deleting accounts."
+            'Designates whether this user should be treated as active. Unselect this instead of deleting accounts.'
         ),
     )
 

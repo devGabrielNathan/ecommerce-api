@@ -7,9 +7,6 @@ from .models import Supplier, User
 # Register your models here.
 @admin.register(User)
 class UserAdmin(admin.ModelAdmin):
-    """
-    Reorganizing the arrangement of fields in the administration panel and adding creation options for address and telephone dynamically.
-    """
     fields = (
         'email',
         'username',
@@ -27,17 +24,12 @@ class UserAdmin(admin.ModelAdmin):
         'is_staff',
         'is_active',
     )
-    ordering = (
-        'email',
-    )
+    ordering = ('email',)
     search_fields = (
         'username',
         'email',
     )
-    inlines = [
-        AddressInline,
-        PhoneInline
-    ]
+    inlines = [AddressInline, PhoneInline]
     list_max_show_all = 100
 
 
@@ -48,23 +40,16 @@ class SupplierAdmin(admin.ModelAdmin):
         'username',
         'is_active',
     )
-    list_filter = (
-        'is_active',
-    )
+    list_filter = ('is_active',)
     list_display = (
         'username',
         'email',
         'is_active',
     )
-    ordering = (
-        'email',
-    )
+    ordering = ('email',)
     search_fields = (
         'username',
         'email',
     )
-    inlines = [
-        AddressInline,
-        PhoneInline
-    ]
+    inlines = [AddressInline, PhoneInline]
     list_max_show_all = 100

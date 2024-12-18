@@ -13,30 +13,55 @@ class AddressAdmin(admin.ModelAdmin):
         'street',
         'number',
         'complement',
-        'cep'
+        'cep',
     )
     list_filter = (
         'state',
         'neighborhood',
     )
-    # list_display = (
-    #     'username',
-    #     'email',
-    #     'is_staff',
-    #     'is_active',
-    # )
-    # ordering = (
-    #     'email',
-    # )
-    # search_fields = (
-    #     'username',
-    #     'email',
-    # )
+    list_display = (
+        'state',
+        'city',
+        'neighborhood',
+        'street',
+        'number',
+        'complement',
+        'cep',
+    )
+    ordering = ('email',)
+    search_fields = (
+        'username',
+        'email',
+    )
 
     list_max_show_all = 100
+
+
 @admin.register(Phone)
 class PhoneAdmin(admin.ModelAdmin):
-    ...
+    fields = (
+        'DDD',
+        'number',
+        'user',
+        'supplier',
+    )
+    list_filter = (
+        'DDD',
+        'user',
+        'supplier',
+    )
+    list_display = (
+        'DDD',
+        'number',
+        'user',
+        'supplier',
+    )
+    ordering = ('email',)
+    search_fields = (
+        'number',
+        'user',
+        'supplier',
+    )
 
 
 class AddressInline(admin.TabularInline):

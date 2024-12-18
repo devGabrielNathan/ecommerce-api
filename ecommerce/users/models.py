@@ -1,4 +1,3 @@
-
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, UserManager
 from django.db import models
 from django.utils import timezone
@@ -9,39 +8,33 @@ from ecommerce.users.abstract_models import AbstractCommonInfo
 
 # Create your models here.
 class User(AbstractCommonInfo, AbstractBaseUser, PermissionsMixin):
-    """
-    An abstract base class implementing a fully featured User model with admin-compliant permissions. Username and password are required. Other fields are optional.
-    """
     is_staff = models.BooleanField(
-        _("staff status"),
+        _('staff status'),
         default=False,
-        help_text=_("Designates whether the user can log into this admin site."),
+        help_text=_('Designates whether the user can log into this admin site.'),
     )
-    date_joined = models.DateTimeField(
-        _("date joined"),
-        default=timezone.now
-    )
+    date_joined = models.DateTimeField(_('date joined'), default=timezone.now)
 
     objects = UserManager()
 
     # EMAIL_FIELD = "email"
-    USERNAME_FIELD = "username"
-    REQUIRED_FIELDS = ["email"]
+    USERNAME_FIELD = 'username'
+    REQUIRED_FIELDS = ['email']
 
     class Meta(AbstractCommonInfo.Meta):
         db_table = 'user'
-        verbose_name = _("user")
-        verbose_name_plural = _("users")
+        verbose_name = _('user')
+        verbose_name_plural = _('users')
 
     def __str__(self):
-        return f"{self.username} - {self.email}"
+        return f'{self.username} - {self.email}'
 
 
 class Supplier(AbstractCommonInfo):
     class Meta(AbstractCommonInfo.Meta):
         db_table = 'supplier'
-        verbose_name = _("supplier")
-        verbose_name_plural = _("suppliers")
+        verbose_name = _('supplier')
+        verbose_name_plural = _('suppliers')
 
     def __str__(self):
-        return f"{self.username} - {self.email}"
+        return f'{self.username} - {self.email}'
