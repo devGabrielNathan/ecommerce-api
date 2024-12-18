@@ -2,7 +2,7 @@ from uuid import uuid4
 
 from django.db import models
 
-from ecommerce.users.models import User
+from ecommerce.users.models import Supplier, User
 
 
 # Create your models here.
@@ -47,24 +47,21 @@ class Address(models.Model):
         null=False,
         blank=False
     )
-    user = models.ForeignKey(
-        User,
-        on_delete=models.CASCADE,
-        related_name='addresses'
-    )
+
+    class Meta:
+        db_table = 'address'
+        verbose_name = 'Address'
+        verbose_name_plural = 'Addresses'
 
     def __str__(self) -> str:
         if not self.complement:
             address = f"{self.street} - {self.neighborhood}, {self.city} - {self.state}, {self.cep}"
 
         else:
-            address = f"{self.street}, {self.number}, {self.complement}, {self.neighborhood}, {self.city} - {self.state}, {self.cep}"
+            address = f"{self.street}, {self.number}, {self.complement},
+            {self.neighborhood}, {self.city} - {self.state}, {self.cep}"
 
         return address
-
-    class Meta:
-        verbose_name = 'Address'
-        verbose_name_plural = 'Addresses'
 
 
 class Phone(models.Model):
@@ -87,15 +84,21 @@ class Phone(models.Model):
     user = models.ForeignKey(
         User,
         on_delete=models.CASCADE,
-        related_name='phones',
+        related_name='phones'
     )
+    supplier = models.ForeignKey(
+        Supplier,
+        on_delete=models.CASCADE,
+        related_name='phones'
+    )
+
+    class Meta:
+        db_table = 'phone'
+        verbose_name = 'Phone'
+        verbose_name_plural = 'Phones'
 
     def __str__(self) -> str:
         if self.DDD.startswith('0'):
             self.DDD = self.DDD[1:]
 
         return f"{self.DDD} {self.number}"
-
-    class Meta:
-        verbose_name = 'Phone'
-        verbose_name_plural = 'Phones'
