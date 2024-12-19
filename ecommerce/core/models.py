@@ -34,13 +34,9 @@ class Address(models.Model):
                 f'{self.neighborhood}, {self.city} - {self.state}, {self.cep}'
             )
         return address
-
-    def clean(self):
-        if self.user and self.supplier:
-            raise ValidationError('An address cannot belong to both a user and a supplier')
-        else:
-            raise ValidationError('The address must contain a user or a supplier')
-
+    
+    def save(self, force_insert = ..., force_update = ..., using = ..., update_fields = ...):
+        return super().save(force_insert, force_update, using, update_fields)
 
 class Phone(models.Model):
     uuid = models.UUIDField(primary_key=True, default=uuid4, editable=False)
@@ -59,9 +55,3 @@ class Phone(models.Model):
             self.DDD = self.DDD[1:]
 
         return f'{self.DDD} {self.number}'
-
-    def clean(self):
-        if self.user and self.supplier:
-            raise ValidationError('An phone cannot belong to both a user and a supplier')
-        else:
-            raise ValidationError('The phone must contain a user or a supplier')
