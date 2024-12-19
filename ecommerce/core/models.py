@@ -46,8 +46,8 @@ class Phone(models.Model):
     uuid = models.UUIDField(primary_key=True, default=uuid4, editable=False)
     DDD = models.CharField(max_length=3, default='21', null=False, blank=False)
     number = models.CharField(max_length=9, null=False, blank=False)
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='phones')
-    supplier = models.ForeignKey(Supplier, on_delete=models.CASCADE, related_name='phones')
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='phones', null=True, blank=True)
+    supplier = models.ForeignKey(Supplier, on_delete=models.CASCADE, related_name='phones', null=True, blank=True)
 
     class Meta:
         db_table = 'phone'

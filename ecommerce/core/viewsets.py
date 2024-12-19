@@ -1,13 +1,13 @@
 from rest_framework import viewsets
-from ecommerce.core import models
-from ecommerce.core import serializers
+from ecommerce.core.models import Address, Phone
+from ecommerce.core.serializers import AddressSerializer, PhoneSerializer
 
 # Create your views here.
 class AddressViewSet(viewsets.ModelViewSet):
-    queryset = models.Address.objects.all()
-    serializer_class = serializers.AddressSerializer
+    queryset = Address.objects.all()
+    serializer_class = AddressSerializer
 
 
 class PhoneViewSet(viewsets.ModelViewSet):
-    queryset = models.Phone.objects.all()
-    serializer_class = serializers.PhoneSerializer
+    queryset = Phone.objects.all()
+    serializer_class = PhoneSerializer

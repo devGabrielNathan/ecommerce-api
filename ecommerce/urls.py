@@ -16,10 +16,13 @@ Including another URLconf
 """
 
 from rest_framework.routers import DefaultRouter
-from ecommerce.core import viewsets
+from ecommerce.core.viewsets import PhoneViewSet
+from ecommerce.core.viewsets import AddressViewSet
+from ecommerce.users.viewsets import UserViewSet
 
 router = DefaultRouter()
-router.register(r'phones', viewsets.PhoneViewSet, basename='phone')
-router.register(r'addresses', viewsets.AddressViewSet, basename='address')
+router.register(r'phones', PhoneViewSet, basename='phone')
+router.register(r'addresses', AddressViewSet, basename='address')
+router.register(r'users', UserViewSet, basename='user')
 
 urlpatterns = router.urls

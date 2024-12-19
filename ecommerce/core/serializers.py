@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from ecommerce.core import models
+from ecommerce.core.models import Address, Phone
 
 
 class AddressSerializer(serializers.ModelSerializer):
@@ -14,7 +14,7 @@ class AddressSerializer(serializers.ModelSerializer):
             'cep',
             )
         
-        model = models.Address
+        model = Address
 
 
 class PhoneSerializer(serializers.ModelSerializer):
@@ -26,4 +26,4 @@ class PhoneSerializer(serializers.ModelSerializer):
             'supplier',
             )
         
-        model = models.Phone
+        model = Phone
