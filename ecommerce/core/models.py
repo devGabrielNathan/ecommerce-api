@@ -1,7 +1,6 @@
 from uuid import uuid4
 
 from django.conf import settings
-from django.core.exceptions import ValidationError
 from django.db import models
 
 from ecommerce.users.models import Supplier
@@ -9,7 +8,7 @@ from ecommerce.users.models import Supplier
 
 # Create your models here.
 class Address(models.Model):
-    uuid = models.UUIDField(primary_key=True, default=uuid4, editable=False)
+    id = models.UUIDField(primary_key=True, unique=True, default=uuid4, editable=False)
     state = models.CharField(max_length=2, null=False, blank=False)
     city = models.CharField(max_length=255, null=False, blank=False)
     neighborhood = models.CharField(max_length=255, null=False, blank=False)
@@ -34,15 +33,14 @@ class Address(models.Model):
                 f'{self.neighborhood}, {self.city} - {self.state}, {self.cep}'
             )
         return address
-    
-    def save(self, force_insert = ..., force_update = ..., using = ..., update_fields = ...):
-        return super().save(force_insert, force_update, using, update_fields)
+
 
 class Phone(models.Model):
-    uuid = models.UUIDField(primary_key=True, default=uuid4, editable=False)
+    id = models.UUIDField(primary_key=True, unique=True, default=uuid4, editable=False)
     DDD = models.CharField(max_length=3, default='21', null=False, blank=False)
     number = models.CharField(max_length=9, null=False, blank=False)
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='phones', null=True, blank=True)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='phones',
+                            null=True, blank=True)
     supplier = models.ForeignKey(Supplier, on_delete=models.CASCADE, related_name='phones', null=True, blank=True)
 
     class Meta:

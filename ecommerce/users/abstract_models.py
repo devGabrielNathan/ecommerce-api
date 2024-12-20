@@ -6,7 +6,7 @@ from django.utils.translation import gettext_lazy as _
 
 
 class AbstractCommonInfo(models.Model):
-    uuid = models.UUIDField(primary_key=True, default=uuid4, editable=False)
+    id = models.UUIDField(primary_key=True, unique=True, default=uuid4, editable=False)
     username = models.CharField(
         _('username'),
         max_length=150,

@@ -7,8 +7,9 @@
 
 
 # class Category(models.Model):
-#     uuid = models.UUIDField(
+#     id = models.UUIDField(
 #         primary_key=True,
+#         unique=True, 
 #         default=uuid4,
 #         editable=False
 #     )
@@ -28,8 +29,9 @@
 
 
 # class Subcategory(models.Model):
-#     uuid = models.UUIDField(
+#     id = models.UUIDField(
 #         primary_key=True,
+#         unique=True, 
 #         default=uuid4,
 #         editable=False
 #     )
@@ -50,8 +52,9 @@
 
 # # Create your models here.
 # class Product(models.Model):
-#     uuid = models.UUIDField(
+#     id = models.UUIDField(
 #         primary_key=True,
+#         unique=True, 
 #         default=uuid4,
 #         editable=False
 #     )
@@ -91,31 +94,6 @@
 #     class Meta:
 #         verbose_name = 'Order'
 #         verbose_name_plural = 'Orders'
-
-
-# class Supplier:
-#     uuid = models.UUIDField(
-#         primary_key=True,
-#         default=uuid4,
-#         editable=False
-#     )
-#     name = models.CharField(
-#         max_length=255,
-#         null=False,
-#         blank=False
-#     )
-#     status = models.BooleanField()
-#     # email =
-#     phone = models.ForeignKey(
-#         Phone,
-#         on_delete=models.CASCADE,
-#         null=False,
-#         blank=False
-#     )
-#     address = models.ForeignKey(
-#         Address,
-#         on_delete=models.CASCADE
-#     )
 
 
 # class ProductSupplier:

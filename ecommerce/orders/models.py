@@ -8,6 +8,7 @@
 # class Order(models.Model):
 #     uuid = models.UUIDField(
 #         primary_key=True,
+#         unique=True, 
 #         default=uuid4,
 #         editable=False
 #     )
@@ -28,6 +29,7 @@
 # class OrderItem(models.Model):
 #     uuid = models.UUIDField(
 #         primary_key=True,
+#         unique=True, 
 #         default=uuid4,
 #         editable=False
 #     )
@@ -52,6 +54,7 @@
 # class Payment(models.Model):
 #     uuid = models.UUIDField(
 #         primary_key=True,
+#         unique=True, 
 #         default=uuid4,
 #         editable=False
 #     )
