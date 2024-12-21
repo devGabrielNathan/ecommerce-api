@@ -8,24 +8,28 @@ User = get_user_model()
 
 class UserSerializer(serializers.ModelSerializer):
     password1 = serializers.CharField(
-        label=_("Password"),
+        label=_('Password'),
         min_length=8,
         max_length=150,
         write_only=True,
         error_messages={
-            'min_length': _("The password must contain at least 8 characters."),
-            'max_length': _("The password cannot exceed 150 characters."),
-        }
+            'min_length': _(
+                'The password must contain at least 8 characters.'
+            ),
+            'max_length': _('The password cannot exceed 150 characters.'),
+        },
     )
     password2 = serializers.CharField(
-        label=_("Password Confirmation"),
+        label=_('Password Confirmation'),
         min_length=8,
         max_length=150,
         write_only=True,
         error_messages={
-            'min_length': _("The password must contain at least 8 characters."),
-            'max_length': _("The password cannot exceed 150 characters."),
-        }
+            'min_length': _(
+                'The password must contain at least 8 characters.'
+            ),
+            'max_length': _('The password cannot exceed 150 characters.'),
+        },
     )
 
     class Meta:
@@ -35,14 +39,15 @@ class UserSerializer(serializers.ModelSerializer):
             'email',
             'password1',
             'password2',
-            )
-        extra_kwargs = {'username': {'required': True}, 'email': {'required': True}}
+        )
+        extra_kwargs = {
+            'username': {'required': True},
+            'email': {'required': True},
+        }
         model = User
 
-    def validate(self, data):
+    @classmethod
+    def validate(cls, data):
         if data['password1'] != data['password2']:
-            raise ValidationError({
-                "password2": _("Passwords do not match")
-                }
-            )
+            raise ValidationError({'password2': _('Passwords do not match')})
         return data

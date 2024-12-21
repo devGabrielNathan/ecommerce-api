@@ -16,9 +16,13 @@ class AddressViewSet(viewsets.ModelViewSet):
         if serializer.is_valid():
             serializer.save()
 
-            return Response(data=serializer.data, status=status.HTTP_201_CREATED)
+            return Response(
+                data=serializer.data, status=status.HTTP_201_CREATED
+            )
         else:
-            return Response(data=serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+            return Response(
+                data=serializer.errors, status=status.HTTP_400_BAD_REQUEST
+            )
 
 
 class PhoneViewSet(viewsets.ModelViewSet):
@@ -34,4 +38,6 @@ class PhoneViewSet(viewsets.ModelViewSet):
 
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         else:
-            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+            return Response(
+                serializer.errors, status=status.HTTP_400_BAD_REQUEST
+            )

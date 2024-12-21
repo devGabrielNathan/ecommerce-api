@@ -27,7 +27,4 @@ router.register(r'phones', PhoneViewSet, basename='phone')
 router.register(r'addresses', AddressViewSet, basename='address')
 router.register(r'users', UserViewSet, basename='user')
 
-urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('', include(router.urls))
-]
+urlpatterns = [path('admin/', admin.site.urls), path('', include(router.urls))]
