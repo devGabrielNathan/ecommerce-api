@@ -19,12 +19,16 @@ from django.contrib import admin
 from django.urls import include, path
 from rest_framework.routers import DefaultRouter
 
-from ecommerce.core.viewsets import AddressViewSet, PhoneViewSet
-from ecommerce.users.viewsets import UserViewSet
+from ecommerce.core.viewsets import AddressModelViewSet, PhoneModelViewSet
+from ecommerce.users.viewsets import UserLoginViewSet, UserModelViewSet
 
 router = DefaultRouter()
-router.register(r'phones', PhoneViewSet, basename='phone')
-router.register(r'addresses', AddressViewSet, basename='address')
-router.register(r'users', UserViewSet, basename='user')
+router.register(r'phones', PhoneModelViewSet, basename='phone')
+router.register(r'addresses', AddressModelViewSet, basename='address')
+router.register(r'users', UserModelViewSet, basename='user')
 
-urlpatterns = [path('admin/', admin.site.urls), path('', include(router.urls))]
+urlpatterns = [
+    path('admin/', admin.site.urls),
+    path('api/', include(router.urls)),
+    path('api/login/', UserLoginViewSet.as_view()),
+]

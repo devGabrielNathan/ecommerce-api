@@ -24,9 +24,9 @@ class User(AbstractCommonInfo, AbstractBaseUser, PermissionsMixin):
 
     objects = UserManager()
 
-    # EMAIL_FIELD = "email"
-    USERNAME_FIELD = 'username'
-    REQUIRED_FIELDS = ['email']
+    EMAIL_FIELD = 'email'
+    USERNAME_FIELD = 'email'
+    REQUIRED_FIELDS = []
 
     class Meta(AbstractCommonInfo.Meta):
         db_table = 'user'

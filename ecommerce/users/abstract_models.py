@@ -22,7 +22,7 @@ class AbstractCommonInfo(models.Model):
             'unique': _('A user with that username already exists.'),
         },
     )
-    email = models.EmailField(_('email address'), max_length=150)
+    email = models.EmailField(_('email address'), unique=True, max_length=150)
     is_active = models.BooleanField(
         _('active'),
         default=True,

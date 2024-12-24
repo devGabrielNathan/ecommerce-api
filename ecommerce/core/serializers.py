@@ -21,8 +21,7 @@ class AddressSerializer(serializers.ModelSerializer):
 
         model = Address
 
-    @classmethod
-    def validate(cls, data):
+    def validate(self, data):
         user = data['user']
         supplier = data['supplier']
 
@@ -51,8 +50,7 @@ class PhoneSerializer(serializers.ModelSerializer):
 
         model = Phone
 
-    @classmethod
-    def validate(cls, data):
+    def validate(self, data):
         user = data['user']
         supplier = data['supplier']
 

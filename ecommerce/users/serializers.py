@@ -46,8 +46,17 @@ class UserSerializer(serializers.ModelSerializer):
         }
         model = User
 
-    @classmethod
-    def validate(cls, data):
+    def validate(self, data):
         if data['password1'] != data['password2']:
             raise ValidationError({'password2': _('Passwords do not match')})
         return data
+
+
+class UserLoginSerializer(serializers.Serializer):
+    email = serializers.EmailField(
+        required=True
+    )
+    password = serializers.CharField(
+        write_only=True,
+        required=True
+    )

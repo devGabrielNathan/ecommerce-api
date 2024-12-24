@@ -1,6 +1,8 @@
-from django.contrib.auth import get_user_model
-from rest_framework import status, viewsets
+from django.contrib.auth import authenticate, get_user_model, login
+from rest_framework import status, views, viewsets
+from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
+from rest_framework_simplejwt.tokens import RefreshToken
 
 from ecommerce.users import serializers
 
@@ -9,7 +11,7 @@ User = get_user_model()
 # Create your views here.
 
 
-class UserViewSet(viewsets.ModelViewSet):
+class UserModelViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
     serializer_class = serializers.UserSerializer
 
@@ -33,39 +35,35 @@ class UserViewSet(viewsets.ModelViewSet):
                 data=serializer.errors, status=status.HTTP_400_BAD_REQUEST
             )
 
-    def patch(self, request):
-        # partial = kwargs.pop('partial', False)
-        instance = self.get_object()
-        serializer = self.get_serializer(False, instance, data=request.data)
+
+class UserLoginViewSet(views.APIView):
+    serializer_class = serializers.UserLoginSerializer
+    permission_classes = (AllowAny,)
+
+    def post(self, request):
+        serializer = self.serializer_class(data=request.data)
 
         if serializer.is_valid():
-            validated_data = serializer.validated_data
-            user = User.objects.update(instance, **validated_data)
-            user.save()
+            email = serializer.validated_data['email']
+            password = serializer.validated_data['password']
+            user = authenticate(request, username=email, password=password)
 
-            return Response(
-                data=serializer.data, status=status.HTTP_204_NO_CONTENT
-            )
+            if user is not None:
+                refresh = RefreshToken.for_user(user)
+                login(request, user)
+
+                return Response({
+                    "access": str(refresh.access_token),
+                    "refresh": str(refresh)
+                },
+                status=status.HTTP_200_OK
+                )
+            else:
+                return Response(
+                {'error': 'Invalid credentials.'},
+                status=status.HTTP_401_UNAUTHORIZED
+                )
         else:
             return Response(
                 data=serializer.errors, status=status.HTTP_400_BAD_REQUEST
             )
-        return user
-
-    def update(self, request):
-        instance = self.get_object()
-        serializer = self.get_serializer(True, instance, data=request.data)
-
-        if serializer.is_valid():
-            validated_data = serializer.validated_data
-            user = User.objects.update(instance, **validated_data)
-            user.save()
-
-            return Response(
-                data=serializer.data, status=status.HTTP_204_NO_CONTENT
-            )
-        else:
-            return Response(
-                data=serializer.errors, status=status.HTTP_400_BAD_REQUEST
-            )
-        return user

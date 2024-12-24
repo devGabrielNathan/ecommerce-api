@@ -6,7 +6,7 @@ from ecommerce.core.serializers import AddressSerializer, PhoneSerializer
 
 
 # Create your views here.
-class AddressViewSet(viewsets.ModelViewSet):
+class AddressModelViewSet(viewsets.ModelViewSet):
     queryset = Address.objects.all()
     serializer_class = AddressSerializer
 
@@ -25,7 +25,7 @@ class AddressViewSet(viewsets.ModelViewSet):
             )
 
 
-class PhoneViewSet(viewsets.ModelViewSet):
+class PhoneModelViewSet(viewsets.ModelViewSet):
     queryset = Phone.objects.all()
     serializer_class = PhoneSerializer
 
