@@ -52,16 +52,17 @@ class UserLoginViewSet(views.APIView):
                 refresh = RefreshToken.for_user(user)
                 login(request, user)
 
-                return Response({
-                    "access": str(refresh.access_token),
-                    "refresh": str(refresh)
-                },
-                status=status.HTTP_200_OK
+                return Response(
+                    {
+                        'access': str(refresh.access_token),
+                        'refresh': str(refresh),
+                    },
+                    status=status.HTTP_200_OK,
                 )
             else:
                 return Response(
-                {'error': 'Invalid credentials.'},
-                status=status.HTTP_401_UNAUTHORIZED
+                    {'error': 'Invalid credentials.'},
+                    status=status.HTTP_401_UNAUTHORIZED,
                 )
         else:
             return Response(
