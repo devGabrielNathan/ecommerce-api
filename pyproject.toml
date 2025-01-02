@@ -69,6 +69,7 @@ exclude = [
 [tool.ruff.lint]
 preview = true
 select = ['I', 'F', 'E', 'W', 'PL', 'PT']
+ignore = ["E501", "PLR6301", "PT009"]
 
 [tool.ruff.format]
 preview = true
