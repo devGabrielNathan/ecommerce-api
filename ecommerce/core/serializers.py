@@ -1,7 +1,11 @@
+from django.contrib.auth import get_user_model
 from rest_framework import serializers
 from rest_framework.exceptions import ValidationError
 
 from ecommerce.core.models import Address, Phone
+from ecommerce.users.models import Supplier
+
+User = get_user_model()
 
 
 class AddressSerializer(serializers.ModelSerializer):
@@ -22,8 +26,8 @@ class AddressSerializer(serializers.ModelSerializer):
         model = Address
 
     def validate(self, data):
-        user = data['user']
-        supplier = data['supplier']
+        user = data.get('user')
+        supplier = data.get('supplier')
 
         if user and supplier:
             raise ValidationError(
@@ -39,6 +43,13 @@ class AddressSerializer(serializers.ModelSerializer):
 
 
 class PhoneSerializer(serializers.ModelSerializer):
+    user = serializers.PrimaryKeyRelatedField(
+        queryset=User.objects.all(), required=False
+    )
+    supplier = serializers.PrimaryKeyRelatedField(
+        queryset=Supplier.objects.all(), required=False
+    )
+
     class Meta:
         fields = (
             'id',
@@ -51,8 +62,8 @@ class PhoneSerializer(serializers.ModelSerializer):
         model = Phone
 
     def validate(self, data):
-        user = data['user']
-        supplier = data['supplier']
+        user = data.get('user')
+        supplier = data.get('supplier')
 
         if user and supplier:
             raise ValidationError(
