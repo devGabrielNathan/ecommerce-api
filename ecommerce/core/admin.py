@@ -68,7 +68,9 @@ class PhoneAdmin(admin.ModelAdmin):
 
 class AddressInline(admin.TabularInline):
     model = Address
+    extra = 1
 
 
 class PhoneInline(admin.TabularInline):
     model = Phone
+    extra = 1
