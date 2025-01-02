@@ -20,11 +20,14 @@ ruff = "^0.8.3"
 taskipy = "^1.14.1"
 
 [tool.taskipy.tasks]
+base = 'python manage.py'
+help = 'python manage.py help'
 run = 'python manage.py runserver'
 app = 'python manage.py startapp'
 adm = 'python manage.py createsuperuser'
 mg = 'python manage.py migrate'
 mk = 'python manage.py makemigrations'
+test = 'python manage.py test'
 lint = 'ruff check . && ruff check . --diff'
 format = 'ruff check . --fix && ruff format .'
 
