@@ -97,7 +97,7 @@ DEFAULT_DBURL = 'sqlite:///' + str(BASE_DIR / 'db.sqlite3')
 DATABASE_URL = f'postgresql://{config("POSTGRES_USER")}:{config("POSTGRES_PASSWORD")}@{config("POSTGRES_HOST")}:{config("POSTGRES_PORT")}/{config("POSTGRES_DB")}'
 
 
-DATABASES = {'default': config(DATABASE_URL, default=DATABASE_URL, cast=dburl)}
+DATABASES = {'default': config(DATABASE_URL, default=DEFAULT_DBURL, cast=dburl)}
 
 
 # Password validation
