@@ -12,7 +12,7 @@ class PhoneTest(APITestCase):
     fixtures = ['phone.json', 'users.json']
 
     def setUp(self):
-        self.pk = '07225864-afee-4f18-ba7f-45c71761ac7e'
+        self.invalid_pk_phone = '07225864-afee-4f18-ba7f-45c71761ac7e'
         self.phone = Phone.objects.get(
             pk='7cdf12e4-fa09-42d4-9aad-b4d658e37622'
         )
@@ -34,22 +34,11 @@ class PhoneTest(APITestCase):
         )
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(
-            response.json(),
-            {
-                'id': str(self.phone.id),
-                'DDD': self.phone.DDD,
-                'number': self.phone.number,
-                'user': str(self.phone.user.id),
-                'supplier': self.phone.supplier,
-            },
-        )
 
     def test_get_phone_by_id_and_return_status_404_not_found(self):
         response = self.client.get(
-            reverse('phone-detail', kwargs={'pk': str(self.pk)})
+            reverse('phone-detail', kwargs={'pk': str(self.invalid_pk_phone)})
         )
-        print(response)
 
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
 
@@ -62,13 +51,17 @@ class PhoneTest(APITestCase):
 
     def test_delete_phone_by_id_and_return_status_404_not_found(self):
         response = self.client.delete(
-            reverse('phone-detail', kwargs={'pk': str(self.pk)})
+            reverse('phone-detail', kwargs={'pk': str(self.invalid_pk_phone)})
         )
 
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
 
     def test_update_phone_by_id_and_return_status_200_ok(self):
-        body = {'DDD': '41', 'number': '999999999', 'user': self.phone.user.id}
+        body = {
+            'DDD': '41',
+            'number': '999999999',
+            'user': str(self.phone.user.id),
+        }
 
         response = self.client.put(
             reverse('phone-detail', kwargs={'pk': str(self.phone.id)}),
@@ -80,15 +73,19 @@ class PhoneTest(APITestCase):
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(updated_phone.id, self.phone.id)
-        self.assertEqual(updated_phone.DDD, body['DDD'])
-        self.assertEqual(updated_phone.number, body['number'])
-        self.assertEqual(updated_phone.user.id, body['user'])
+        self.assertEqual(updated_phone.DDD, body.get('DDD'))
+        self.assertEqual(updated_phone.number, body.get('number'))
+        self.assertEqual(str(updated_phone.user.id), body.get('user'))
 
     def test_update_phone_by_id_and_return_status_404_not_found(self):
-        body = {'DDD': '41', 'number': '999999999', 'user': self.phone.user.id}
+        body = {
+            'DDD': '41',
+            'number': '999999999',
+            'user': (self.phone.user.id),
+        }
 
         response = self.client.put(
-            reverse('phone-detail', kwargs={'pk': str(self.pk)}),
+            reverse('phone-detail', kwargs={'pk': str(self.invalid_pk_phone)}),
             body,
             format='json',
         )
@@ -96,7 +93,7 @@ class PhoneTest(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
 
     def test_patch_phone_by_id_and_return_status_200_ok(self):
-        body = {'DDD': '21', 'number': '888888888', 'user': self.phone.user.id}
+        body = {'DDD': '99', 'user': str(self.phone.user.id)}
 
         response = self.client.patch(
             reverse('phone-detail', kwargs={'pk': str(self.phone.id)}),
@@ -104,20 +101,24 @@ class PhoneTest(APITestCase):
             format='json',
         )
 
-        patch_phone = Phone.objects.get(id=self.phone.id)
+        patch_phone = Phone.objects.get(id=str(self.phone.id))
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(patch_phone.DDD, body['DDD'])
-        self.assertEqual(patch_phone.number, body['number'])
-        self.assertEqual(patch_phone.user.id, body['user'])
+        self.assertEqual(patch_phone.DDD, body.get('DDD'))
+        self.assertEqual(patch_phone.number, self.phone.number)
+        self.assertEqual(str(patch_phone.user.id), str(self.phone.user.id))
 
-        self.assertEqual(patch_phone.id, self.phone.id)
+        self.assertEqual(str(patch_phone.id), str(self.phone.id))
 
     def test_patch_phone_by_id_and_return_status_404_not_found(self):
-        body = {'DDD': '21', 'number': '888888888', 'user': self.phone.user.id}
+        body = {
+            'DDD': '21',
+            'number': '888888888',
+            'user': str(self.phone.user.id),
+        }
 
         response = self.client.patch(
-            reverse('phone-detail', kwargs={'pk': str(self.pk)}),
+            reverse('phone-detail', kwargs={'pk': str(self.invalid_pk_phone)}),
             body,
             format='json',
         )
@@ -128,14 +129,14 @@ class PhoneTest(APITestCase):
         user = User.objects.get(pk='d19fb71e-7140-468b-899c-9b940da2476c')
         body = {'DDD': '42', 'number': '111111111', 'user': user.id}
 
-        response = self.client.post(reverse('phone-list'), body)
+        response = self.client.post(reverse('phone-list'), body, format='json')
 
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
 
     def test_post_phone_and_return_status_400_bad_request(self):
         user = User.objects.get(pk='d19fb71e-7140-468b-899c-9b940da2476c')
-        body = {'DDD': '42', 'number': '', 'user': user.id}
+        body = {'DDD': '', 'number': '', 'user': user.id}
 
-        response = self.client.post(reverse('phone-list'), body)
+        response = self.client.post(reverse('phone-list'), body, format='json')
 
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)

@@ -1,26 +1,51 @@
+from uuid import uuid4
+
 from django.contrib.auth.models import (
     AbstractBaseUser,
     PermissionsMixin,
     UserManager,
 )
+from django.contrib.auth.validators import UnicodeUsernameValidator
 from django.db import models
 from django.utils import timezone
-from django.utils.translation import gettext_lazy as _
-
-from ecommerce.users.abstract_models import AbstractCommonInfo
 
 
 # Create your models here.
-# fmt: off
-class User(AbstractCommonInfo, AbstractBaseUser, PermissionsMixin):
+class User(AbstractBaseUser, PermissionsMixin):
+    id = models.UUIDField(
+        primary_key=True, unique=True, default=uuid4, editable=False
+    )
+    username = models.CharField(
+        'username',
+        max_length=150,
+        unique=True,
+        help_text=(
+            'Required. 150 characters or fewer.'
+            + 'Letters, digits and @/./+/-/_ only.'
+        ),
+        validators=[UnicodeUsernameValidator],
+        error_messages={
+            'unique': ('A user with that username already exists.'),
+        },
+    )
+    email = models.EmailField('email address', unique=True, max_length=150)
+    password = models.CharField('password', max_length=128)
+    is_active = models.BooleanField(
+        'active',
+        default=True,
+        help_text=(
+            'Designates whether this user should be treated as active. '
+            + 'Unselect this instead of deleting accounts.'
+        ),
+    )
     is_staff = models.BooleanField(
-        _('staff status'),
+        'staff status',
         default=False,
-        help_text=_(
+        help_text=(
             'Designates whether the user can log into this admin site.'
         ),
     )
-    date_joined = models.DateTimeField(_('date joined'), default=timezone.now)
+    date_joined = models.DateTimeField('date joined', default=timezone.now)
 
     objects = UserManager()
 
@@ -28,21 +53,46 @@ class User(AbstractCommonInfo, AbstractBaseUser, PermissionsMixin):
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []
 
-    class Meta(AbstractCommonInfo.Meta):
+    class Meta:
         db_table = 'user'
-        verbose_name = _('user')
-        verbose_name_plural = _('users')
+        verbose_name = 'user'
+        verbose_name_plural = 'users'
 
     def __str__(self):
         return f'{self.username} - {self.email}'
 
 
-class Supplier(AbstractCommonInfo):
-    class Meta(AbstractCommonInfo.Meta):
+class Supplier:
+    id = models.UUIDField(
+        primary_key=True, unique=True, default=uuid4, editable=False
+    )
+    username = models.CharField(
+        'username',
+        max_length=150,
+        unique=True,
+        help_text=(
+            'Required. 150 characters or fewer.'
+            + 'Letters, digits and @/./+/-/_ only.'
+        ),
+        validators=[UnicodeUsernameValidator],
+        error_messages={
+            'unique': ('A user with that username already exists.'),
+        },
+    )
+    email = models.EmailField('email address', unique=True, max_length=150)
+    is_active = models.BooleanField(
+        'active',
+        default=True,
+        help_text=(
+            'Designates whether this user should be treated as active. '
+            + 'Unselect this instead of deleting accounts.'
+        ),
+    )
+
+    class Meta:
         db_table = 'supplier'
-        verbose_name = _('supplier')
-        verbose_name_plural = _('suppliers')
+        verbose_name = 'supplier'
+        verbose_name_plural = 'suppliers'
 
     def __str__(self):
         return f'{self.username} - {self.email}'
-# fmt: on

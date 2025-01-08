@@ -8,15 +8,14 @@ from ecommerce.users import serializers
 
 User = get_user_model()
 
+
 # Create your views here.
-
-
-class UserModelViewSet(viewsets.ModelViewSet):
+class UserModelViewSet(viewsets.ViewSet):
     queryset = User.objects.all()
     serializer_class = serializers.UserSerializer
 
     def create(self, request):
-        serializer = self.get_serializer(data=request.data)
+        serializer = self.serializer_class(data=request.data)
 
         if serializer.is_valid():
             validated_data = serializer.validated_data

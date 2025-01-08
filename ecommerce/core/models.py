@@ -54,11 +54,15 @@ class Address(models.Model):
         settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
         related_name='address',
+        null=True,
+        blank=True
     )
     supplier = models.ForeignKey(
         Supplier,
         on_delete=models.CASCADE,
-        related_name='address'
+        related_name='address',
+        null=True,
+        blank=True
     )
 
     class Meta:
