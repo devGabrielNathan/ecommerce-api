@@ -10,17 +10,17 @@ User = get_user_model()
 
 
 # Create your views here.
-class UserModelViewSet(viewsets.ViewSet):
+class UserModelViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
     serializer_class = serializers.UserSerializer
 
     def create(self, request):
-        serializer = self.serializer_class(data=request.data)
+        serializer = self.get_serializer(data=request.data)
 
         if serializer.is_valid():
             validated_data = serializer.validated_data
-            validated_data.pop('password2', None)
-            password = validated_data.pop('password1')
+            validated_data.pop('password_confirmation', None)
+            password = validated_data.pop('password')
             user = User.objects.create_user(
                 password=password, **validated_data
             )

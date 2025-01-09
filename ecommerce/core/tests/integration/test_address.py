@@ -13,9 +13,7 @@ class AddressTest(APITestCase):
 
     def setUp(self):
         self.invalid_pk_address = 'ceee9266-9e82-459b-a0a5-f83e2096db82'
-        self.address = Address.objects.get(
-            pk='faafa8bd-a924-473f-86f1-6b12b2dfe3ec'
-        )
+        self.address = Address.objects.get(pk='faafa8bd-a924-473f-86f1-6b12b2dfe3ec')
 
     def test_get_all_address_and_return_status_200_ok(self):
         response = self.client.get(reverse('address-list'))
@@ -24,7 +22,7 @@ class AddressTest(APITestCase):
         self.assertGreater(len(response.json()), 0)
 
     def test_get_all_address_and_return_status_404_not_found(self):
-        response = self.client.get('invalid_route')
+        response = self.client.get('/invalid_route/')
 
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
 
@@ -176,7 +174,7 @@ class AddressTest(APITestCase):
             'number': '123',
             'complement': 'Apto 45',
             'cep': '01001000',
-            'user': user.id,
+            'user': str(user.id),
         }
 
         response = self.client.post(

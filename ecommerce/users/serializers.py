@@ -7,7 +7,7 @@ User = get_user_model()
 
 
 class UserSerializer(serializers.ModelSerializer):
-    password1 = serializers.CharField(
+    password = serializers.CharField(
         label=_('Password'),
         min_length=8,
         max_length=150,
@@ -19,7 +19,7 @@ class UserSerializer(serializers.ModelSerializer):
             'max_length': _('The password cannot exceed 150 characters.'),
         },
     )
-    password2 = serializers.CharField(
+    password_confirmation = serializers.CharField(
         label=_('Password Confirmation'),
         min_length=8,
         max_length=150,
@@ -37,8 +37,8 @@ class UserSerializer(serializers.ModelSerializer):
             'id',
             'username',
             'email',
-            'password1',
-            'password2',
+            'password',
+            'password_confirmation',
         )
         extra_kwargs = {
             'username': {'required': True},
@@ -47,8 +47,8 @@ class UserSerializer(serializers.ModelSerializer):
         model = User
 
     def validate(self, data):
-        if data['password1'] != data['password2']:
-            raise ValidationError({'password2': _('Passwords do not match')})
+        if data['password'] != data['password_confirmation']:
+            raise ValidationError({'password_confirmation': _('Passwords do not match')})
         return data
 
 
