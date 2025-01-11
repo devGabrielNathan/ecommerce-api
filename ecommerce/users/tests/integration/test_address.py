@@ -3,7 +3,7 @@ from django.urls import reverse
 from rest_framework import status
 from rest_framework.test import APITestCase
 
-from ecommerce.core.models import Address
+from ecommerce.users.models.address import Address
 
 User = get_user_model()
 
@@ -13,7 +13,9 @@ class AddressTest(APITestCase):
 
     def setUp(self):
         self.invalid_pk_address = 'ceee9266-9e82-459b-a0a5-f83e2096db82'
-        self.address = Address.objects.get(pk='faafa8bd-a924-473f-86f1-6b12b2dfe3ec')
+        self.address = Address.objects.get(
+            pk='faafa8bd-a924-473f-86f1-6b12b2dfe3ec'
+        )
 
     def test_get_all_address_and_return_status_200_ok(self):
         response = self.client.get(reverse('address-list'))

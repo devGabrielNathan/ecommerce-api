@@ -1,18 +1,18 @@
 from django.contrib.auth import authenticate, get_user_model, login
-from rest_framework import status, views, viewsets
+from rest_framework import generics, status, views
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 from rest_framework_simplejwt.tokens import RefreshToken
 
-from ecommerce.users import serializers
+from ecommerce.users.serializers.user import UserSerializer, UserLoginSerializer
 
 User = get_user_model()
 
 
 # Create your views here.
-class UserModelViewSet(viewsets.ModelViewSet):
-    queryset = User.objects.all()
-    serializer_class = serializers.UserSerializer
+class UserGenericListCreate(generics.ListCreateAPIView):
+    # queryset = User.objects.all()
+    serializer_class = UserSerializer
 
     def create(self, request):
         serializer = self.get_serializer(data=request.data)
@@ -35,8 +35,13 @@ class UserModelViewSet(viewsets.ModelViewSet):
             )
 
 
-class UserLoginViewSet(views.APIView):
-    serializer_class = serializers.UserLoginSerializer
+class UserGenericRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+
+
+class UserLoginApiView(views.APIView):
+    serializer_class = UserLoginSerializer
     permission_classes = (AllowAny,)
 
     def post(self, request):

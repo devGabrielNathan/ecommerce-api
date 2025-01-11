@@ -1,7 +1,10 @@
 from django.contrib import admin
+from django.contrib.auth import get_user_model
 
-from ..core.admin import AddressInline, PhoneInline
-from .models import Supplier, User
+from ecommerce.users.admin.address import AddressInline
+from ecommerce.users.admin.phone import PhoneInline
+
+User = get_user_model()
 
 
 # Register your models here.
@@ -22,28 +25,6 @@ class UserAdmin(admin.ModelAdmin):
         'email',
         'username',
         'is_staff',
-        'is_active',
-    )
-    ordering = ('email',)
-    search_fields = (
-        'username',
-        'email',
-    )
-    inlines = [AddressInline, PhoneInline]
-    list_max_show_all = 100
-
-
-@admin.register(Supplier)
-class SupplierAdmin(admin.ModelAdmin):
-    fields = (
-        'email',
-        'username',
-        'is_active',
-    )
-    list_filter = ('is_active',)
-    list_display = (
-        'username',
-        'email',
         'is_active',
     )
     ordering = ('email',)

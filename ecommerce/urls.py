@@ -17,18 +17,10 @@ Including another URLconf
 
 from django.contrib import admin
 from django.urls import include, path
-from rest_framework.routers import DefaultRouter
-
-from ecommerce.core.viewsets import AddressModelViewSet, PhoneModelViewSet
-from ecommerce.users.viewsets import UserLoginViewSet, UserModelViewSet
-
-router = DefaultRouter()
-router.register(r'phones', PhoneModelViewSet, basename='phone')
-router.register(r'addresses', AddressModelViewSet, basename='address')
-router.register(r'users', UserModelViewSet, basename='user')
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api/', include(router.urls)),
-    path('api/login/', UserLoginViewSet.as_view()),
+    path('api/', include('ecommerce.users.urls')),
+    # path('api/', include('ecommerce.orders.urls')),
+    # path('api/', include('ecommerce.products.urls'))
 ]

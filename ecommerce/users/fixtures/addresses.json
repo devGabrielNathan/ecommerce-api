@@ -1,6 +1,6 @@
 [
     {
-        "model": "core.address",
+        "model": "users.address",
         "pk": "faafa8bd-a924-473f-86f1-6b12b2dfe3ec",
         "fields": {
             "state": "SP",
@@ -15,7 +15,7 @@
         }
     },
     {
-        "model": "core.address",
+        "model": "users.address",
         "pk": "865b13fe-add7-4379-b879-85602d983833",
         "fields": {
             "state": "RJ",

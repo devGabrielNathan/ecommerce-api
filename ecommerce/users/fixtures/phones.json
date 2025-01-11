@@ -1,6 +1,6 @@
 [
     {
-        "model":"core.phone",
+        "model":"users.phone",
         "pk": "7cdf12e4-fa09-42d4-9aad-b4d658e37622",
         "fields": {
             "DDD": "21",
@@ -10,7 +10,7 @@
             }
     },
     {
-        "model":"core.phone",
+        "model":"users.phone",
         "pk": "b6c3ceb7-2e6a-447c-b4f6-47dbe64e732f",
         "fields": {
             "DDD": "21",
@@ -20,7 +20,7 @@
             }
     },
     {
-        "model":"core.phone",
+        "model":"users.phone",
         "pk": "bf0ab2c2-3355-4e06-9807-2c2ea1a548d1",
         "fields": {
             "DDD": "21",
@@ -30,7 +30,7 @@
             }
     },
     {
-        "model":"core.phone",
+        "model":"users.phone",
         "pk": "6d86ff18-aa4d-470d-906f-7e1307e744a4",
         "fields": {
             "DDD": "21",
@@ -40,7 +40,7 @@
             }
     },
     {
-        "model":"core.phone",
+        "model":"users.phone",
         "pk": "bf847688-d228-419d-98f8-33be284b8069",
         "fields": {
             "DDD": "21",
@@ -50,7 +50,7 @@
             }
     },
     {
-        "model":"core.phone",
+        "model":"users.phone",
         "pk": "522c9fea-a20e-4ed4-ab8f-43d160010641",
         "fields": {
             "DDD": "21",
@@ -60,7 +60,7 @@
             }
     },
     {
-        "model":"core.phone",
+        "model":"users.phone",
         "pk": "8f1d920a-1a5d-4a73-8aa6-375ea4f23aef",
         "fields": {
             "DDD": "21",
@@ -70,7 +70,7 @@
             }
     },
     {
-        "model":"core.phone",
+        "model":"users.phone",
         "pk": "be8dd058-3956-449c-aa1f-9ca9d44629d4",
         "fields": {
             "DDD": "21",
@@ -80,7 +80,7 @@
             }
     },
     {
-        "model":"core.phone",
+        "model":"users.phone",
         "pk": "f82cb4e9-1984-4f2b-a33b-f4f7d15acddb",
         "fields": {
             "DDD": "21",
@@ -90,7 +90,7 @@
             }
     },
     {
-        "model":"core.phone",
+        "model":"users.phone",
         "pk": "0c6fe7b4-53e5-4754-8ea2-f85982248df1",
         "fields": {
             "DDD": "21",

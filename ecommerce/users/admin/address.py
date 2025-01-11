@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from ecommerce.core.models import Address, Phone
+from ecommerce.users.models.address import Address
 
 
 # Register your models here.
@@ -39,38 +39,6 @@ class AddressAdmin(admin.ModelAdmin):
     list_max_show_all = 100
 
 
-@admin.register(Phone)
-class PhoneAdmin(admin.ModelAdmin):
-    fields = (
-        'DDD',
-        'number',
-        'user',
-        'supplier',
-    )
-    list_filter = (
-        'DDD',
-        'user',
-        'supplier',
-    )
-    list_display = (
-        'DDD',
-        'number',
-        'user',
-        'supplier',
-    )
-    ordering = ('DDD',)
-    search_fields = (
-        'number',
-        'user',
-        'supplier',
-    )
-
-
 class AddressInline(admin.TabularInline):
     model = Address
-    extra = 1
-
-
-class PhoneInline(admin.TabularInline):
-    model = Phone
     extra = 1

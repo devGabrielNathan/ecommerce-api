@@ -3,13 +3,13 @@ from django.urls import reverse
 from rest_framework import status
 from rest_framework.test import APITestCase
 
-from ecommerce.core.models import Phone
+from ecommerce.users.models.phone import Phone
 
 User = get_user_model()
 
 
 class PhoneTest(APITestCase):
-    fixtures = ['phone.json', 'users.json']
+    fixtures = ['phones.json', 'users.json']
 
     def setUp(self):
         self.invalid_pk_phone = '07225864-afee-4f18-ba7f-45c71761ac7e'

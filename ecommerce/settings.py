@@ -50,10 +50,9 @@ THIRD_PARTY_APPS = [
 ]
 
 LOCAL_APPS = [
-    'ecommerce.core.apps.CoreConfig',
-    'ecommerce.orders.apps.OrdersConfig',
-    'ecommerce.products.apps.ProductsConfig',
     'ecommerce.users.apps.UsersConfig',
+    'ecommerce.orders.apps.OrdersConfig',
+    'ecommerce.products.apps.ProductsConfig'
 ]
 
 INSTALLED_APPS += THIRD_PARTY_APPS + LOCAL_APPS
