@@ -12,17 +12,13 @@ from ecommerce.users.views.supplier import (
     SupplierGenericListCreate,
     SupplierGenericRetrieveUpdateDestroy,
 )
-from ecommerce.users.views.user import (
-    UserGenericListCreate,
-    UserGenericRetrieveUpdateDestroy,
-    UserLoginApiView,
-)
+from ecommerce.users.views.user import UserAdmin, UserLoginApiView
 
 urlpatterns = [
-    path('users/', UserGenericListCreate.as_view(), name='user-list'),
+    path('users/', UserAdmin.as_view(), name='user-list'),
     path(
         'users/<uuid:pk>/',
-        UserGenericRetrieveUpdateDestroy.as_view(),
+        UserAdmin.as_view(),
         name='user-detail',
     ),
     path(

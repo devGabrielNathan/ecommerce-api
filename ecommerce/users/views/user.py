@@ -1,48 +1,60 @@
 from django.contrib.auth import authenticate, get_user_model, login
-from rest_framework import generics, status, views
-from rest_framework.permissions import AllowAny
+from rest_framework import generics, mixins, status, views
+from rest_framework.permissions import AllowAny, IsAdminUser
 from rest_framework.response import Response
 from rest_framework_simplejwt.tokens import RefreshToken
 
-from ecommerce.users.serializers.user import UserSerializer, UserLoginSerializer
+from ecommerce.users.serializers.user import (
+    UserLoginSerializer,
+    UserSerializer,
+)
 
 User = get_user_model()
 
 
 # Create your views here.
-class UserGenericListCreate(generics.ListCreateAPIView):
-    # queryset = User.objects.all()
-    serializer_class = UserSerializer
-
-    def create(self, request):
-        serializer = self.get_serializer(data=request.data)
-
-        if serializer.is_valid():
-            validated_data = serializer.validated_data
-            validated_data.pop('password_confirmation', None)
-            password = validated_data.pop('password')
-            user = User.objects.create_user(
-                password=password, **validated_data
-            )
-            user.save()
-
-            return Response(
-                data=serializer.data, status=status.HTTP_201_CREATED
-            )
-        else:
-            return Response(
-                data=serializer.errors, status=status.HTTP_400_BAD_REQUEST
-            )
-
-
-class UserGenericRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
+class UserAdmin(
+    mixins.CreateModelMixin,
+    mixins.ListModelMixin,
+    mixins.RetrieveModelMixin,
+    mixins.DestroyModelMixin,
+    mixins.UpdateModelMixin,
+    generics.GenericAPIView,
+):
     queryset = User.objects.all()
     serializer_class = UserSerializer
+    permission_classes = [IsAdminUser]
+
+
+# class UserGenericRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
+#     queryset = User.objects.all()
+#     serializer_class = UserSerializer
+#     permission_classes = [AllowAny]
+
+#     def create(self, request):
+#         serializer = self.get_serializer(data=request.data)
+
+#         if serializer.is_valid():
+#             validated_data = serializer.validated_data
+#             validated_data.pop('password_confirmation', None)
+#             password = validated_data.pop('password')
+#             user = User.objects.create_user(
+#                 password=password, **validated_data
+#             )
+#             user.save()
+
+#             return Response(
+#                 data=serializer.data, status=status.HTTP_201_CREATED
+#             )
+#         else:
+#             return Response(
+#                 data=serializer.errors, status=status.HTTP_400_BAD_REQUEST
+#             )
 
 
 class UserLoginApiView(views.APIView):
     serializer_class = UserLoginSerializer
-    permission_classes = (AllowAny,)
+    permission_classes = [AllowAny]
 
     def post(self, request):
         serializer = self.serializer_class(data=request.data)

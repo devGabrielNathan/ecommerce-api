@@ -1,7 +1,7 @@
 from rest_framework import generics
 
-from ecommerce.users.serializers.supplier import SupplierSerializer 
 from ecommerce.users.models.supplier import Supplier
+from ecommerce.users.serializers.supplier import SupplierSerializer
 
 
 # Create your views here.
