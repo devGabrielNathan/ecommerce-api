@@ -15,9 +15,9 @@ class Command(BaseCommand):
     def handle(self, *args, **kwargs):
         USERS_IN_DATABASE = 1
 
-        if User.objects.count() < USERS_IN_DATABASE:
+        if User.objects.count() <= USERS_IN_DATABASE:
             self.stdout.write(
-                f"Users in database ({User.objects.count()}) is less than {USERS_IN_DATABASE}."
+                f'Users in database ({User.objects.count()}) is less than or equal to {USERS_IN_DATABASE}.'
             )
 
             dict_queryset = {
@@ -27,7 +27,7 @@ class Command(BaseCommand):
                 'Address': Address.objects.exists(),
             }
 
-            self.stdout.write(f"Model data existence: {dict_queryset}")
+            self.stdout.write(f'Model data existence: {dict_queryset}')
 
             if not all(dict_queryset.values()):
                 try:
@@ -48,5 +48,5 @@ class Command(BaseCommand):
                 )
         else:
             self.stdout.write(
-                f"Users in database ({User.objects.count()}) is not less than {USERS_IN_DATABASE}. No fixtures loaded."
+                f'Users in database ({User.objects.count()}) is not less than {USERS_IN_DATABASE}. No fixtures loaded.'
             )

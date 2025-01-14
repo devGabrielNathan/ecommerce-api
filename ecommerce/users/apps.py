@@ -6,4 +6,4 @@ class UsersConfig(AppConfig):
     name = 'ecommerce.users'
 
     def ready(self):
-        import ecommerce.users.signals
+        import ecommerce.users.signals 

@@ -44,20 +44,12 @@ class UserSerializer(serializers.ModelSerializer):
     def validate(self, data):
         if data['password'] != data['password_confirmation']:
             raise ValidationError({
-                'password_confirmation': 'Passwords do not match'
+                'password_confirmation': 'Passwords do not match.'
             })
         return data
 
 
-class UserLoginSerializer(serializers.ModelSerializer):
-    class Meta:
-        fields = (
-            'email',
-            'password',
-        )
-        extra_kwargs = {
-            'email': {'required': True},
-            'password': {'required': True},
-        }
-
-        model = User
+class UserLogoutSerializer(serializers.Serializer):
+    refresh = serializers.CharField(
+        error_messages={'required': 'You need to enter the refresh token.'}
+    )

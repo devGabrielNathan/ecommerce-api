@@ -12,7 +12,7 @@ python-decouple = "^3.8"
 dj-database-url = "^2.3.0"
 django-extensions = "^3.2.3"
 djangorestframework = "^3.15.2"
-djangorestframework-simplejwt = "^5.3.1"
+djangorestframework-simplejwt = "^5.4.0"
 psycopg = {extras = ["binary", "pool"], version = "^3.2.3"}
 
 [tool.poetry.group.dev.dependencies]
@@ -65,6 +65,7 @@ exclude = [
     "venv",
     "settings.py",
     "manage.py",
+    "*/apps.py"
 ]
 
 [tool.ruff.lint]

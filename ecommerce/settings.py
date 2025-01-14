@@ -47,6 +47,7 @@ THIRD_PARTY_APPS = [
     'rest_framework',
     'django_extensions',
     'rest_framework_simplejwt',
+    'rest_framework_simplejwt.token_blacklist',
 ]
 
 LOCAL_APPS = [
@@ -153,8 +154,9 @@ REST_FRAMEWORK = {
 }
 
 SIMPLE_JWT = {
-    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=60),
-    "REFRESH_TOKEN_LIFETIME": timedelta(days=1),
+    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=15),
+    "REFRESH_TOKEN_LIFETIME": timedelta(hours=2),
     "ALGORITHM": "HS256",
     "AUTH_HEADER_TYPES": ("Bearer",),
+    'BLACKLIST_AFTER_ROTATION': True
 }

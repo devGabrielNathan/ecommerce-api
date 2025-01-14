@@ -46,6 +46,7 @@ class User(AbstractBaseUser, PermissionsMixin):
         ),
     )
     date_joined = models.DateTimeField('date joined', default=timezone.now)
+    last_login = models.DateTimeField('last login', blank=True, null=True)
 
     objects = UserManager()
 
