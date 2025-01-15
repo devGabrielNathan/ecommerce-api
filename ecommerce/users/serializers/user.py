@@ -1,7 +1,9 @@
+from uuid import uuid4
+
 from django.contrib.auth import get_user_model
 from rest_framework import serializers
 from rest_framework.validators import ValidationError
-# from rest_framework_simplejwt.serializers import TokenObtainPairSerializer  
+from rest_framework_simplejwt.tokens import RefreshToken
 
 User = get_user_model()
 
@@ -45,8 +47,7 @@ class UserSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         validated_data.pop('password_confirmation', None)
-        password = validated_data.pop('password')
-        user = User.objects.create_user(password=password, **validated_data)
+        user = User.objects.create_user(**validated_data)
         return user
 
     def validate(self, data):
@@ -58,58 +59,53 @@ class UserSerializer(serializers.ModelSerializer):
 
 
 class UserLoginSerializer(serializers.Serializer):
+    id = serializers.UUIDField(default=uuid4, read_only=True)
+    access = serializers.CharField(read_only=True)
+    refresh = serializers.CharField(read_only=True)
     email = serializers.EmailField(
         required=True,
-        error_messages={'required': 'You need to enter the email.'}
+        write_only=True,
+        error_messages={'required': 'You need to enter the email.'},
     )
     password = serializers.CharField(
-        write_only=True, 
+        write_only=True,
         required=True,
-        error_messages={'required': 'You need to enter the password.'}
+        error_messages={'required': 'You need to enter the password.'},
     )
-    
+
     def validate(self, data):
         email = data.get('email')
         password = data.get('password')
-        
+
         user = User.objects.filter(email=email).first()
 
         if not user or not user.check_password(password):
             raise serializers.ValidationError({
                 'email': 'User with this email was not found.'
-                if not user else 'Incorrect password.'
+                if not user
+                else 'Incorrect password.'
             })
-        data['id'] = user.id        
+
+        refresh = RefreshToken.for_user(user)
+        access = refresh.access_token
+
+        data['id'] = user.id
+        data['access'] = access
+        data['refresh'] = refresh
 
         return data
-# class UserLoginSerializer(serializers.Serializer):
-#     email = serializers.EmailField(
-#         required=True,
-#         error_messages={'required': 'You need to enter the email.'}
-#     )
-#     password = serializers.CharField(
-#         write_only=True, 
-#         required=True,
-#         error_messages={'required': 'You need to enter the password.'}
-#     )
-
-#     def validate(self, data):
-#         email = data.get('email')
-#         password = data.get('password')
-        
-#         user = User.objects.filter(email=email).first()
-
-#         if not user or not user.check_password(password):
-#             raise serializers.ValidationError({
-#                 'email': 'User with this email was not found.'
-#                 if not user else 'Incorrect password.'
-#             })
-#         data['id'] = user.id        
-
-#         return data
 
 
 class UserLogoutSerializer(serializers.Serializer):
     refresh = serializers.CharField(
         error_messages={'required': 'You need to enter the refresh token.'}
     )
+
+    def validate(self, data):
+        refresh = data.get('refresh')
+        refresh_token = RefreshToken(refresh)
+        refresh_token.blacklist()
+
+        data['refresh'] = refresh
+
+        return data

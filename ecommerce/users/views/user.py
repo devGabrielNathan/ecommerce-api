@@ -4,13 +4,13 @@ from rest_framework.generics import GenericAPIView
 from rest_framework.mixins import (
     CreateModelMixin,
     DestroyModelMixin,
+    ListModelMixin,
     RetrieveModelMixin,
     UpdateModelMixin,
 )
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from rest_framework_simplejwt.tokens import RefreshToken
 
 from ecommerce.users.serializers.user import (
     UserLoginSerializer,
@@ -18,13 +18,12 @@ from ecommerce.users.serializers.user import (
     UserSerializer,
 )
 
-
-
 User = get_user_model()
 
 
 # Create your views here.
 class UserAccess(
+    ListModelMixin,
     CreateModelMixin,
     RetrieveModelMixin,
     DestroyModelMixin,
@@ -48,6 +47,9 @@ class UserAccess(
                 data=serializer.errors, status=status.HTTP_400_BAD_REQUEST
             )
 
+    def get(self, request, *args, **kwargs):
+        return self.list(request, *args, **kwargs)
+
 
 class UserLoginObtainPairView(APIView):
     serializer_class = UserLoginSerializer
@@ -55,55 +57,13 @@ class UserLoginObtainPairView(APIView):
 
     def post(self, request):
         serializer = self.serializer_class(data=request.data)
-        
+
         if serializer.is_valid():
-            validated_data = serializer.validated_data
-            id = validated_data.get('id')
-            user = User.objects.get(id=id)
-            refresh = RefreshToken.for_user(user)
-            access = refresh.access_token
-
-            response = {
-                'id': str(id),
-                'refresh': str(refresh),
-                'access': str(access),
-            }
-
-            return Response(
-                data=response, status=status.HTTP_200_OK
-            )
+            return Response(data=serializer.data, status=status.HTTP_200_OK)
         else:
             return Response(
                 data=serializer.errors, status=status.HTTP_400_BAD_REQUEST
             )
-# class UserLoginObtainPairView(APIView):
-#     serializer_class = UserLoginSerializer
-#     permission_classes = (AllowAny,)
-
-#     def post(self, request):
-#         serializer = self.serializer_class(data=request.data)
-        
-#         if serializer.is_valid():
-#             validated_data = serializer.validated_data
-#             id = validated_data.get('id')
-#             user = User.objects.get(id=id)
-#             refresh = RefreshToken.for_user(user)
-#             access = refresh.access_token
-
-#             response = {
-#                 'id': str(id),
-#                 'refresh': str(refresh),
-#                 'access': str(access),
-#             }
-
-#             return Response(
-#                 data=response, status=status.HTTP_200_OK
-#             )
-#         else:
-#             return Response(
-#                 data=serializer.errors, status=status.HTTP_400_BAD_REQUEST
-#             )
-
 
 
 class UserLogoutApiView(APIView):
@@ -114,12 +74,8 @@ class UserLogoutApiView(APIView):
         serializer = self.serializer_class(data=request.data)
 
         if serializer.is_valid():
-            validated_data = serializer.validated_data
-            refresh_token = RefreshToken(validated_data['refresh'])
-            refresh_token.blacklist()
-
             return Response(
-                data=refresh_token, status=status.HTTP_205_RESET_CONTENT
+                status=status.HTTP_205_RESET_CONTENT
             )
         else:
             return Response(
