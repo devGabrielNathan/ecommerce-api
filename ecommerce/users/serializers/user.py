@@ -49,13 +49,15 @@ class UserSerializer(serializers.ModelSerializer):
         validated_data.pop('password_confirmation', None)
         user = User.objects.create_user(**validated_data)
         return user
-
+    
     def validate(self, data):
-        if data['password'] != data['password_confirmation']:
-            raise ValidationError({
-                'password_confirmation': 'Passwords do not match.'
-            })
-        return data
+        if self.context['request'].method == 'POST':
+            if data['password'] != data['password_confirmation']:
+                raise ValidationError({
+                    'password_confirmation': 'Passwords do not match.'
+                })
+            return data
+
 
 
 class UserLoginSerializer(serializers.Serializer):
@@ -108,4 +110,57 @@ class UserLogoutSerializer(serializers.Serializer):
 
         data['refresh'] = refresh
 
+        return data
+    
+class ResetPasswordSerializer(serializers.Serializer):
+    old_password = serializers.CharField(
+        label='Old Password',
+        min_length=8,
+        max_length=150,
+        write_only=True,
+        required=True,
+        error_messages={
+            'min_length': 'The password must contain at least 8 characters.',
+            'max_length': 'The password cannot exceed 150 characters.',
+        },
+    )
+    new_password = serializers.CharField(
+        label='Password',
+        min_length=8,
+        max_length=150,
+        write_only=True,
+        required=True,
+        error_messages={
+            'min_length': 'The password must contain at least 8 characters.',
+            'max_length': 'The password cannot exceed 150 characters.',
+        },
+    )
+    password_confirmation = serializers.CharField(
+        label='Password Confirmation',
+        min_length=8,
+        max_length=150,
+        write_only=True,
+        required=True,
+        error_messages={
+            'min_length': 'The password must contain at least 8 characters.',
+            'max_length': 'The password cannot exceed 150 characters.',
+        },
+    )
+
+    def update(self, instance, validated_data):
+        old_password = validated_data.get('old_password')
+        
+        if not instance.check_password(old_password):
+            raise ValidationError({'old_password': 'Old password is incorrect.'})
+        
+        instance.set_password(validated_data['new_password'])
+        instance.save()
+
+        return instance
+    
+    def validate(self, data):
+        if data['new_password'] != data['password_confirmation']:
+            raise ValidationError({
+                'password_confirmation': 'Passwords do not match.'
+            })
         return data

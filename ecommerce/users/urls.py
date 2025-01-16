@@ -1,7 +1,4 @@
 from django.urls import path
-from rest_framework_simplejwt.views import (
-    TokenRefreshView,
-)
 
 from ecommerce.users.views.address import (
     AddressGenericListCreate,
@@ -16,17 +13,19 @@ from ecommerce.users.views.supplier import (
     SupplierGenericRetrieveUpdateDestroy,
 )
 from ecommerce.users.views.user import (
-    UserAccess,
-    UserLoginObtainPairView,
+    UserPublicAccess,
+    ResetPassword,
+    UserDetail,
+    UserLoginView,
     UserLogoutApiView,
 )
 
 urlpatterns = [
+    path('users/', UserPublicAccess.as_view(), name='user-list'),
+    path('users/<uuid:pk>/', UserDetail.as_view(), name='user-detail'),
     path('logout/', UserLogoutApiView.as_view(), name='logout'),
-    path('login/', UserLoginObtainPairView.as_view(), name='login'),
-    path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
-    path('users/', UserAccess.as_view(), name='user-list'),
-    path('users/<uuid:pk>/', UserAccess.as_view(), name='user-detail'),
+    path('login/', UserLoginView.as_view(), name='login'),
+    path('password-reset/<uuid:pk>/', ResetPassword.as_view(), name='password-reset'),
     path(
         'suppliers/', SupplierGenericListCreate.as_view(), name='supplier-list'
     ),
