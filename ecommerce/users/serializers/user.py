@@ -8,7 +8,7 @@ from rest_framework_simplejwt.tokens import RefreshToken
 User = get_user_model()
 
 
-class UserSerializer(serializers.ModelSerializer):
+class UserCreateAccountSerializer(serializers.ModelSerializer):
     password = serializers.CharField(
         label='Password',
         min_length=8,
@@ -49,21 +49,46 @@ class UserSerializer(serializers.ModelSerializer):
         validated_data.pop('password_confirmation', None)
         user = User.objects.create_user(**validated_data)
         return user
-    
+
     def validate(self, data):
-        if self.context['request'].method == 'POST':
-            if data['password'] != data['password_confirmation']:
-                raise ValidationError({
-                    'password_confirmation': 'Passwords do not match.'
-                })
-            return data
+        if data['password'] != data['password_confirmation']:
+            raise ValidationError({
+                'password_confirmation': 'Passwords do not match.'
+            })
+        return data
 
+class UserAccountSerializer(serializers.ModelSerializer):
+    class Meta:
+        fields = (
+            'id',
+            'username',
+            'email',
+        )
+        extra_kwargs = {
+            'id': {'read_only': True},
+            'username': {'required': True},
+            'email': {'required': True},
+        }
+        model = User
 
+    def update(self, instance, validated_data):
+        instance.username = validated_data.get('username')
+        instance.email = validated_data.get('email')
+        instance.save()
+
+        return instance
 
 class UserLoginSerializer(serializers.Serializer):
-    id = serializers.UUIDField(default=uuid4, read_only=True)
-    access = serializers.CharField(read_only=True)
-    refresh = serializers.CharField(read_only=True)
+    id = serializers.UUIDField(
+        default=uuid4, 
+        read_only=True
+    )
+    access = serializers.CharField(
+        read_only=True
+    )
+    refresh = serializers.CharField(
+        read_only=True
+    )
     email = serializers.EmailField(
         required=True,
         write_only=True,
@@ -111,7 +136,8 @@ class UserLogoutSerializer(serializers.Serializer):
         data['refresh'] = refresh
 
         return data
-    
+
+
 class ResetPasswordSerializer(serializers.Serializer):
     old_password = serializers.CharField(
         label='Old Password',
@@ -149,15 +175,17 @@ class ResetPasswordSerializer(serializers.Serializer):
 
     def update(self, instance, validated_data):
         old_password = validated_data.get('old_password')
-        
+
         if not instance.check_password(old_password):
-            raise ValidationError({'old_password': 'Old password is incorrect.'})
-        
+            raise ValidationError({
+                'old_password': 'Old password is incorrect.'
+            })
+
         instance.set_password(validated_data['new_password'])
         instance.save()
 
         return instance
-    
+
     def validate(self, data):
         if data['new_password'] != data['password_confirmation']:
             raise ValidationError({

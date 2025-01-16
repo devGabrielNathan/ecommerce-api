@@ -13,19 +13,23 @@ from ecommerce.users.views.supplier import (
     SupplierGenericRetrieveUpdateDestroy,
 )
 from ecommerce.users.views.user import (
-    UserPublicAccess,
     ResetPassword,
     UserDetail,
     UserLoginView,
     UserLogoutApiView,
+    UserCreateAccountApiView,
 )
 
 urlpatterns = [
-    path('users/', UserPublicAccess.as_view(), name='user-list'),
+    path('users/', UserCreateAccountApiView.as_view(), name='user-list'),
     path('users/<uuid:pk>/', UserDetail.as_view(), name='user-detail'),
     path('logout/', UserLogoutApiView.as_view(), name='logout'),
     path('login/', UserLoginView.as_view(), name='login'),
-    path('password-reset/<uuid:pk>/', ResetPassword.as_view(), name='password-reset'),
+    path(
+        'password-reset/<uuid:pk>/',
+        ResetPassword.as_view(),
+        name='password-reset',
+    ),
     path(
         'suppliers/', SupplierGenericListCreate.as_view(), name='supplier-list'
     ),
