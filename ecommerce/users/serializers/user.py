@@ -57,7 +57,8 @@ class UserCreateAccountSerializer(serializers.ModelSerializer):
             })
         return data
 
-class UserAccountSerializer(serializers.ModelSerializer):
+
+class UserDetailSerializer(serializers.ModelSerializer):
     class Meta:
         fields = (
             'id',
@@ -71,24 +72,11 @@ class UserAccountSerializer(serializers.ModelSerializer):
         }
         model = User
 
-    def update(self, instance, validated_data):
-        instance.username = validated_data.get('username')
-        instance.email = validated_data.get('email')
-        instance.save()
-
-        return instance
 
 class UserLoginSerializer(serializers.Serializer):
-    id = serializers.UUIDField(
-        default=uuid4, 
-        read_only=True
-    )
-    access = serializers.CharField(
-        read_only=True
-    )
-    refresh = serializers.CharField(
-        read_only=True
-    )
+    id = serializers.UUIDField(default=uuid4, read_only=True)
+    access = serializers.CharField(read_only=True)
+    refresh = serializers.CharField(read_only=True)
     email = serializers.EmailField(
         required=True,
         write_only=True,

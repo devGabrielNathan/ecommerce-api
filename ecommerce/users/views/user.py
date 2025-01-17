@@ -10,9 +10,9 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from ecommerce.users.serializers.user import (
-    UserAccountSerializer,
-    UserCreateAccountSerializer,
     ResetPasswordSerializer,
+    UserCreateAccountSerializer,
+    UserDetailSerializer,
     UserLoginSerializer,
     UserLogoutSerializer,
 )
@@ -25,19 +25,21 @@ class UserCreateAccountApiView(CreateAPIView):
     serializer_class = UserCreateAccountSerializer
     permission_classes = (AllowAny,)
 
-class UserDetail(RetrieveUpdateDestroyAPIView):
-    serializer_class = UserAccountSerializer
-    permission_classes = (IsAuthenticated,)
+
+class UserDetailApiView(RetrieveUpdateDestroyAPIView):
+    serializer_class = UserDetailSerializer
+    permission_classes = (AllowAny,)
 
     def get_object(self):
-        return self.request.user
+        user = User.objects.get(id=self.kwargs['pk'])
+        return user
 
 
-class UserLoginView(APIView):
+class UserLoginApiView(APIView):
     serializer_class = UserLoginSerializer
     permission_classes = (AllowAny,)
 
-    def post(self, request):
+    def post(self, request) -> Response:
         serializer = self.serializer_class(data=request.data)
 
         if serializer.is_valid():
@@ -63,9 +65,10 @@ class UserLogoutApiView(APIView):
             )
 
 
-class ResetPassword(UpdateAPIView):
+class ResetPasswordApiView(UpdateAPIView):
     serializer_class = ResetPasswordSerializer
     permission_classes = (IsAuthenticated,)
 
     def get_object(self):
-        return self.request.user
+        user = User.objects.get(id=self.kwargs['pk'])
+        return user

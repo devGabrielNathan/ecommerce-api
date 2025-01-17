@@ -1,55 +1,41 @@
 from django.urls import path
 
 from ecommerce.users.views.address import (
-    AddressGenericListCreate,
-    AddressGenericRetrieveUpdateDestroy,
+    AddressCreateApiView,
+    AddressDetailApiView,
 )
 from ecommerce.users.views.phone import (
-    PhoneGenericListCreate,
-    PhoneGenericRetrieveUpdateDestroy,
-)
-from ecommerce.users.views.supplier import (
-    SupplierGenericListCreate,
-    SupplierGenericRetrieveUpdateDestroy,
+    PhoneCreateApiView,
+    PhoneDetailApiView,
 )
 from ecommerce.users.views.user import (
-    ResetPassword,
-    UserDetail,
-    UserLoginView,
-    UserLogoutApiView,
+    ResetPasswordApiView,
     UserCreateAccountApiView,
+    UserDetailApiView,
+    UserLoginApiView,
+    UserLogoutApiView,
 )
 
 urlpatterns = [
     path('users/', UserCreateAccountApiView.as_view(), name='user-list'),
-    path('users/<uuid:pk>/', UserDetail.as_view(), name='user-detail'),
+    path('users/<uuid:pk>/', UserDetailApiView.as_view(), name='user-detail'),
+    path('login/', UserLoginApiView.as_view(), name='login'),
     path('logout/', UserLogoutApiView.as_view(), name='logout'),
-    path('login/', UserLoginView.as_view(), name='login'),
     path(
         'password-reset/<uuid:pk>/',
-        ResetPassword.as_view(),
+        ResetPasswordApiView.as_view(),
         name='password-reset',
     ),
-    path(
-        'suppliers/', SupplierGenericListCreate.as_view(), name='supplier-list'
-    ),
-    path(
-        'suppliers/<uuid:pk>/',
-        SupplierGenericRetrieveUpdateDestroy.as_view(),
-        name='supplier-detail',
-    ),
-    path(
-        'addresses/', AddressGenericListCreate.as_view(), name='address-list'
-    ),
+    path('addresses/', AddressCreateApiView.as_view(), name='address-list'),
     path(
         'addresses/<uuid:pk>/',
-        AddressGenericRetrieveUpdateDestroy.as_view(),
+        AddressDetailApiView.as_view(),
         name='address-detail',
     ),
-    path('phones/', PhoneGenericListCreate.as_view(), name='phone-list'),
+    path('phones/', PhoneCreateApiView.as_view(), name='phone-list'),
     path(
         'phones/<uuid:pk>/',
-        PhoneGenericRetrieveUpdateDestroy.as_view(),
+        PhoneDetailApiView.as_view(),
         name='phone-detail',
     ),
 ]
