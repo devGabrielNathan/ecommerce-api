@@ -12,11 +12,7 @@ class PhoneAdmin(admin.ModelAdmin):
         'user',
         'supplier',
     )
-    list_filter = (
-        'DDD',
-        'user',
-        'supplier',
-    )
+    list_filter = ('DDD',)
     list_display = (
         'DDD',
         'number',
