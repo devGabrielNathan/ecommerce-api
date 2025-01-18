@@ -1,0 +1,9 @@
+[
+    {
+        "model": "store.Category",
+        "pk": "8f091eaf-a582-437c-ad2b-f689a69cf401",
+        "fields": {
+            "name": "Eletrônicos"
+        }
+    }
+]

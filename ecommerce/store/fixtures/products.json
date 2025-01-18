@@ -1,0 +1,38 @@
+[
+    {
+        "model": "store.Product",
+        "pk": "905a69f3-11db-4f99-b80f-23d5ba2be758",
+        "fields": {
+            "brand": "Apple",
+            "name": "Iphone 12",
+            "description":"X",
+            "price":"699.00",
+            "quantity":"100",
+            "subcategory": "4d825b96-ef23-4218-b382-c4eb3618b0f0"
+        }
+    },
+    {
+        "model": "store.Product",
+        "pk": "a677244a-5a41-4f8e-8662-3371c7a2c8fd",
+        "fields": {
+            "brand": "Samsung",
+            "name": "Samsung Galaxy A10",
+            "description":"X",
+            "price":"699.00",
+            "quantity":"100",
+            "subcategory": "4d825b96-ef23-4218-b382-c4eb3618b0f0"
+        }
+    },
+    {
+        "model": "store.Product",
+        "pk": "a31ce857-a18b-425c-94f1-bbb305d66e61",
+        "fields": {
+            "brand": "Motorola",
+            "name": "Moto E",
+            "description":"X",
+            "price":"699.00",
+            "quantity":"100",
+            "subcategory": "4d825b96-ef23-4218-b382-c4eb3618b0f0"
+        }
+    }
+]

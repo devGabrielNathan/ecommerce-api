@@ -28,5 +28,21 @@
             "user": "d19fb71e-7140-468b-899c-9b940da2476c",
             "supplier": null
         }
+    },
+    {
+        "model": "users.Address",
+        "pk": "a249c649-866e-4d5c-bda1-8cf0c79d7b94",
+        "fields": {
+            "state": "RJ",
+            "city": "Rio de Janeiro",
+            "neighborhood": "Tijuca",
+            "street": "Avenida Maracanã",
+            "number": "1188",
+            "complement": "Bloco A, Sala 202",
+            "cep": "20511001",
+            "store": "580ff1df-7c71-48f8-892e-9a83c5a69ce4",
+            "user": null,
+            "supplier": null
+        }    
     }
 ]

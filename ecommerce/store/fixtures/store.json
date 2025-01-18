@@ -1,0 +1,9 @@
+[
+    {
+        "model": "store.Store",
+        "pk": "580ff1df-7c71-48f8-892e-9a83c5a69ce4",
+        "fields": {
+            "name": "Loja Virtual"
+        }
+    }
+]

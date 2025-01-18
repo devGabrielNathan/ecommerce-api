@@ -1,0 +1,11 @@
+[
+    {
+        "model": "orders.OrderItem",
+        "pk": "0f8d7703-dee8-4c3b-b3d1-b1784a6e32c5",
+        "fields": {
+            "order": "6fecf9ec-b8ff-428f-82fa-776eb3a40b7c",
+            "product": "905a69f3-11db-4f99-b80f-23d5ba2be758",
+            "quantity": "2"
+        }
+    }
+]

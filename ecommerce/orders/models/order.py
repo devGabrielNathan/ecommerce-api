@@ -3,6 +3,8 @@ from uuid import uuid4
 from django.conf import settings
 from django.db import models
 
+from ecommerce.store.models.product import Product
+
 
 # Create your models here.
 class Order(models.Model):
@@ -13,6 +15,9 @@ class Order(models.Model):
         settings.AUTH_USER_MODEL,
         on_delete=models.PROTECT,
         related_name='orders',
+    )
+    order_item = models.ManyToManyField(
+        Product, through='OrderItem', related_name='orders'
     )
 
     def __str__(self) -> str:

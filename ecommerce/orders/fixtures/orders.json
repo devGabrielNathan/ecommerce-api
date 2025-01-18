@@ -1,0 +1,9 @@
+[
+    {
+        "model": "orders.Order",
+        "pk": "6fecf9ec-b8ff-428f-82fa-776eb3a40b7c",
+        "fields": {
+            "user": "d19fb71e-7140-468b-899c-9b940da2476c"
+        }
+    }
+]

@@ -1,0 +1,26 @@
+[
+    {
+        "model": "users.Supplier",
+        "pk": "55f44225-c6a4-4c8b-a100-a69a3bc5fcb6",
+        "fields": {
+            "username": "Fornecedor de Celulares",
+            "email": "celulares@gmail.com"
+        }
+    },
+    {
+        "model": "users.Supplier",
+        "pk": "a23abcac-b830-45cf-ba79-9aab3842b0bb",
+        "fields": {
+            "username": "Fornecedor de Computadores",
+            "email": "computadores@gmail.com"
+        }
+    },
+    {
+        "model": "users.Supplier",
+        "pk": "3badcb89-5da4-4b85-b3c8-58a8517de03d",
+        "fields": {
+            "username": "Fornecedor de VideoGames",
+            "email": "videogames@gmail.com"
+        }
+    }
+]

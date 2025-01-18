@@ -1,0 +1,26 @@
+[
+    {
+        "model": "store.Subcategory",
+        "pk": "4d825b96-ef23-4218-b382-c4eb3618b0f0",
+        "fields": {
+            "name": "Celulares",
+            "category": "8f091eaf-a582-437c-ad2b-f689a69cf401"
+        }
+    },
+    {
+        "model": "store.Subcategory",
+        "pk": "0766103e-1d77-4309-b140-7c1c69479afd",
+        "fields": {
+            "name": "Computadores",
+            "category": "8f091eaf-a582-437c-ad2b-f689a69cf401"
+        }
+    },
+    {
+        "model": "store.Subcategory",
+        "pk": "583fc120-ca3a-4a92-95e6-e3ce45facd1a",
+        "fields": {
+            "name": "Videogames",
+            "category": "8f091eaf-a582-437c-ad2b-f689a69cf401"
+        }
+    }
+]

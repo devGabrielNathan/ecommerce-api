@@ -32,9 +32,17 @@ class Command(BaseCommand):
             if not all(dict_queryset.values()):
                 try:
                     call_command('loaddata', 'users.json')
-                    # call_command('loaddata', 'suppliers.json')
+                    call_command('loaddata', 'suppliers.json')
                     call_command('loaddata', 'phones.json')
+                    call_command('loaddata', 'store.json')
                     call_command('loaddata', 'addresses.json')
+                    call_command('loaddata', 'orders.json')
+                    call_command('loaddata', 'categories.json')
+                    call_command('loaddata', 'subcategories.json')
+                    call_command('loaddata', 'products.json')
+                    # Ate aqui tudo bem
+                    call_command('loaddata', 'order_items.json')
+                    call_command('loaddata', 'product_supplier.json')
                     self.stdout.write(
                         self.style.SUCCESS('Fixtures loaded successfully!')
                     )

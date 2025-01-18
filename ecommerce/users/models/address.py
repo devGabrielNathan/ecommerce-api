@@ -3,6 +3,7 @@ from uuid import uuid4
 from django.conf import settings
 from django.db import models
 
+from ecommerce.store.models.store import Store
 from ecommerce.users.models.supplier import Supplier
 
 
@@ -18,6 +19,13 @@ class Address(models.Model):
     number = models.CharField(max_length=20, null=False, blank=False)
     complement = models.CharField(max_length=255, null=True, blank=True)
     cep = models.CharField(max_length=8, null=False, blank=False)
+    store = models.OneToOneField(
+        Store,
+        on_delete=models.CASCADE,
+        related_name='address',
+        null=True,
+        blank=True,
+    )
     user = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
