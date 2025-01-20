@@ -3,8 +3,6 @@ from uuid import uuid4
 from django.conf import settings
 from django.db import models
 
-from ecommerce.users.models.supplier import Supplier
-
 
 # Create your models here.
 class Phone(models.Model):
@@ -15,13 +13,6 @@ class Phone(models.Model):
     number = models.CharField(max_length=9, null=False, blank=False)
     user = models.ForeignKey(
         settings.AUTH_USER_MODEL,
-        on_delete=models.CASCADE,
-        related_name='phones',
-        null=True,
-        blank=True,
-    )
-    supplier = models.ForeignKey(
-        Supplier,
         on_delete=models.CASCADE,
         related_name='phones',
         null=True,

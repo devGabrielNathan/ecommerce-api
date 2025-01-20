@@ -4,7 +4,6 @@ from django.db import models
 
 from ecommerce.core.utils import Status
 from ecommerce.store.models.subcategory import Subcategory
-from ecommerce.users.models.supplier import Supplier
 
 
 class Product(models.Model):
@@ -21,9 +20,6 @@ class Product(models.Model):
     )
     subcategory = models.ForeignKey(
         Subcategory, on_delete=models.PROTECT, related_name='products'
-    )
-    product_supplier = models.ManyToManyField(
-        Supplier, through='ProductSupplier', related_name='products'
     )
 
     def __str__(self) -> str:

@@ -10,20 +10,17 @@ class PhoneAdmin(admin.ModelAdmin):
         'DDD',
         'number',
         'user',
-        'supplier',
     )
     list_filter = ('DDD',)
     list_display = (
         'DDD',
         'number',
         'user',
-        'supplier',
     )
     ordering = ('DDD',)
     search_fields = (
         'number',
         'user',
-        'supplier',
     )
 
 

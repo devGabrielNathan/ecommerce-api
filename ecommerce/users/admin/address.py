@@ -15,7 +15,6 @@ class AddressAdmin(admin.ModelAdmin):
         'complement',
         'cep',
         'user',
-        'supplier',
     )
     list_filter = (
         'state',
