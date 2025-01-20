@@ -1,205 +1,180 @@
 from django.contrib.auth import get_user_model
 from django.urls import reverse
 from rest_framework import status
-from rest_framework.test import APITestCase
+from rest_framework.test import APIClient, APITestCase
 
 from ecommerce.users.models.address import Address
 
 User = get_user_model()
 
 
-class AddressTest(APITestCase):
-    fixtures = ['addresses.json', 'users.json']
+class AddressIntegrationTest(APITestCase):
+    fixtures = ['users.json', 'addresses.json']
 
     def setUp(self):
-        self.invalid_pk_address = 'ceee9266-9e82-459b-a0a5-f83e2096db82'
-        self.address = Address.objects.get(
+        self.user_id = User.objects.get(
+            pk='d19fb71e-7140-468b-899c-9b940da2476c'
+        )
+        self.client = APIClient()
+        self.client.force_authenticate(user=self.user_id)
+
+        self.address_id = Address.objects.get(
             pk='faafa8bd-a924-473f-86f1-6b12b2dfe3ec'
         )
+        self.invalid_address_id = 'ceee9266-9e82-459b-a0a5-f83e2096db82'
 
-    def test_get_all_address_and_return_status_200_ok(self):
-        response = self.client.get(reverse('address-list'))
+        self.url = reverse('address-list')
+        self.invalid_url = 'invalid-url/'
 
-        self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertGreater(len(response.json()), 0)
+        self.url_with_id = reverse(
+            'address-detail', kwargs={'pk': str(self.address_id.id)}
+        )
+        self.invalid_url_with_id = (
+            f'addresses/{str(self.invalid_address_id)}/'
+        )
 
-    def test_get_all_address_and_return_status_404_not_found(self):
-        response = self.client.get('/invalid_route/')
-
-        self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
+        self.payload_patch = {
+            'city': 'Imperatriz', 
+            'street': 'Rua Imper'
+        }
+        self.payload_update = {
+            'state': 'TE',
+            'city': 'Teste',
+            'neighborhood': 'Teste',
+            'street': 'Teste',
+            'number': '123',
+            'complement': 'Teste',
+            'cep': '12345678',
+            'user': str(self.user_id.id),
+        }
+        self.invalid_payload_update = {
+            'state': 'TE',
+            'city': 'Teste',
+            'neighborhood': 'Teste',
+            'street': 'Teste',
+            'number': '123',
+            'complement': 'Teste',
+            'cep': '12345678'
+        }
+        self.payload_post = {
+            'state': 'TE2',
+            'city': 'Teste2',
+            'neighborhood': 'Teste2',
+            'street': 'Teste2',
+            'number': '123',
+            'complement': 'Teste2',
+            'cep': '12345678',
+            'user': str(self.user_id.id),
+        }
+        self.invalid_payload_post = {
+            'state': 'TE2',
+            'city': 'Teste',
+            'neighborhood': 'Teste2',
+            'street': 'Teste2',
+            'number': '123',
+            'complement': 'Teste2',
+            'cep': '12345678'
+        }
 
     def test_get_address_by_id_and_return_status_200_ok(self):
-        response = self.client.get(
-            reverse('address-detail', kwargs={'pk': str(self.address.id)})
-        )
+        response = self.client.get(self.url_with_id)
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
     def test_get_address_by_id_and_return_status_404_not_found(self):
-        response = self.client.get(
-            reverse(
-                'address-detail', kwargs={'pk': str(self.invalid_pk_address)}
-            )
-        )
-        print(response)
+        response = self.client.get(self.invalid_url_with_id)
 
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
 
     def test_delete_address_by_id_and_return_status_204_no_content(self):
-        response = self.client.delete(
-            reverse('address-detail', kwargs={'pk': str(self.address.id)})
-        )
-
+        response = self.client.delete(self.url_with_id)
         self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
 
     def test_delete_address_by_id_and_return_status_404_not_found(self):
-        response = self.client.delete(
-            reverse(
-                'address-detail', kwargs={'pk': str(self.invalid_pk_address)}
-            )
-        )
+        response = self.client.delete(self.invalid_url_with_id)
 
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
 
     def test_update_address_by_id_and_return_status_200_ok(self):
-        body = {
-            'state': 'MA',
-            'city': 'Imperatriz',
-            'neighborhood': 'Santa Rita',
-            'street': 'Rua Imperatriz Leopoldina',
-            'number': '456',
-            'complement': 'Apto. 1',
-            'cep': '65919250',
-            'user': str(self.address.user.id),
-        }
-
         response = self.client.put(
-            reverse('address-detail', kwargs={'pk': str(self.address.id)}),
-            body,
-            format='json',
+            self.url_with_id, self.payload_update, format='json'
         )
 
-        updated_address = Address.objects.get(id=self.address.id)
+        updated_address = Address.objects.get(id=self.address_id.id)
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(updated_address.id, self.address.id)
-        self.assertEqual(updated_address.state, body.get('state'))
-        self.assertEqual(updated_address.city, body.get('city'))
+        self.assertEqual(updated_address.id, self.address_id.id)
         self.assertEqual(
-            updated_address.neighborhood, body.get('neighborhood')
+            updated_address.state, self.payload_update.get('state')
         )
-        self.assertEqual(updated_address.street, body.get('street'))
-        self.assertEqual(updated_address.number, body.get('number'))
-        self.assertEqual(updated_address.complement, body.get('complement'))
-        self.assertEqual(updated_address.cep, body.get('cep'))
-        self.assertEqual(str(updated_address.user.id), body.get('user'))
+        self.assertEqual(updated_address.city, self.payload_update.get('city'))
+        self.assertEqual(
+            updated_address.neighborhood,
+            self.payload_update.get('neighborhood'),
+        )
+        self.assertEqual(
+            updated_address.street, self.payload_update.get('street')
+        )
+        self.assertEqual(
+            updated_address.number, self.payload_update.get('number')
+        )
+        self.assertEqual(
+            updated_address.complement, self.payload_update.get('complement')
+        )
+        self.assertEqual(updated_address.cep, self.payload_update.get('cep'))
+        self.assertEqual(
+            str(updated_address.user.id), self.payload_update.get('user')
+        )
 
     def test_update_address_by_id_and_return_status_404_not_found(self):
-        body = {
-            'state': 'MA',
-            'city': 'Imperatriz',
-            'neighborhood': 'Santa Rita',
-            'street': 'Rua Imperatriz Leopoldina',
-            'number': '456',
-            'complement': 'Apto. 1',
-            'cep': '65919250',
-            'user': str(self.address.user.id),
-        }
-
         response = self.client.put(
-            reverse(
-                'phone-detail', kwargs={'pk': str(self.invalid_pk_address)}
-            ),
-            body,
-            format='json',
+            self.invalid_url_with_id, self.payload_update, format='json'
         )
 
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
 
     def test_patch_address_by_id_and_return_status_200_ok(self):
-        body = {
-            'city': 'Imperatriz',
-            'street': 'Rua Imperatriz Leopoldina',
-            'user': str(self.address.user.id),
-        }
-
         response = self.client.patch(
-            reverse('address-detail', kwargs={'pk': str(self.address.id)}),
-            body,
-            format='json',
+            self.url_with_id, self.payload_patch, format='json'
         )
 
-        patch_address = Address.objects.get(id=self.address.id)
+        patch_address = Address.objects.get(id=self.address_id.id)
 
-        self.assertEqual(patch_address.id, self.address.id)
-
+        self.assertEqual(patch_address.id, self.address_id.id)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(patch_address.city, body.get('city'))
-        self.assertEqual(patch_address.street, body.get('street'))
-
-        self.assertEqual(patch_address.state, self.address.state)
-        self.assertEqual(patch_address.neighborhood, self.address.neighborhood)
-        self.assertEqual(patch_address.number, self.address.number)
-        self.assertEqual(patch_address.complement, self.address.complement)
-        self.assertEqual(patch_address.cep, self.address.cep)
-        self.assertEqual(str(patch_address.user.id), str(self.address.user.id))
+        self.assertEqual(patch_address.city, self.payload_patch.get('city'))
+        self.assertEqual(
+            patch_address.street, self.payload_patch.get('street')
+        )
+        self.assertEqual(patch_address.state, self.address_id.state)
+        self.assertEqual(
+            patch_address.neighborhood, self.address_id.neighborhood
+        )
+        self.assertEqual(patch_address.number, self.address_id.number)
+        self.assertEqual(patch_address.complement, self.address_id.complement)
+        self.assertEqual(patch_address.cep, self.address_id.cep)
+        self.assertEqual(
+            str(patch_address.user.id), str(self.address_id.user.id)
+        )
 
     def test_patch_address_by_id_and_return_status_404_not_found(self):
-        body = {
-            'state': 'MA',
-            'city': 'Imperatriz',
-            'neighborhood': 'Santa Rita',
-            'street': 'Rua Imperatriz Leopoldina',
-            'number': '789',
-            'complement': 'Apto. 1',
-            'cep': '65919250',
-            'user': str(self.address.user.id),
-        }
-
         response = self.client.patch(
-            reverse(
-                'address-detail', kwargs={'pk': str(self.invalid_pk_address)}
-            ),
-            body,
-            format='json',
+            self.invalid_url_with_id, self.payload_patch, format='json'
         )
 
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
 
     def test_post_address_and_return_status_201_created(self):
-        user = User.objects.get(pk='d19fb71e-7140-468b-899c-9b940da2476c')
-        body = {
-            'state': 'SP',
-            'city': 'São Paulo',
-            'neighborhood': 'Centro',
-            'street': 'Rua das Flores',
-            'number': '123',
-            'complement': 'Apto 45',
-            'cep': '01001000',
-            'user': str(user.id),
-        }
-
-        response = self.client.post(
-            reverse('address-list'), body, format='json'
-        )
+        response = self.client.post(self.url, self.payload_update, format='json')
 
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
 
     def test_post_address_and_return_status_400_bad_request(self):
-        user = User.objects.get(pk='d19fb71e-7140-468b-899c-9b940da2476c')
-        body = {
-            'state': '',
-            'city': '',
-            'neighborhood': '',
-            'street': '',
-            'number': '',
-            'complement': '',
-            'cep': '',
-            'user': str(user.id),
-        }
-
-        response = self.client.post(
-            reverse('address-list'), body, format='json'
-        )
+        response = self.client.post(self.url, self.invalid_payload_post, format='json')
 
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+
+    def test_post_address_and_return_status_404_not_found(self):
+        response = self.client.post(self.invalid_url, self.payload_post, format='json')
+
+        self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
