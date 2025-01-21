@@ -34,39 +34,39 @@ class UserCreateIntegrationTest(CommonSetUp):
     def setUp(self) -> None:
         super().setUp()
 
-        self.payload_post = {
+        self.payload = {
             'username': 'teste2',
             'email': 'teste2@gmail.com',
             'password': '123456789',
             'password_confirmation': '123456789',
         }
-        self.invalid_payload_post = {
+        self.invalid_payload = {
             'username': 'teste2',
             'email': 'teste@gmail.com',
             'password': '123456789',
         }
 
     def test_create_user_and_return_status_code_201_created(self):
-        response = self.client.post(self.url, self.payload_post, format='json')
+        response = self.client.post(self.url, self.payload, format='json')
 
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
 
     def test_create_user_and_return_status_code_400_bad_request(self):
         response = self.client.post(
-            self.url, self.invalid_payload_post, format='json'
+            self.url, self.invalid_payload, format='json'
         )
 
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
 
     def test_create_user_and_return_status_code_404_not_found(self):
         response = self.client.post(
-            self.invalid_url, self.payload_post, format='json'
+            self.invalid_url, self.payload, format='json'
         )
 
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
 
     def test_create_superuser_and_return_status_code_201_created(self):
-        new_payload = copy.deepcopy(self.payload_post)
+        new_payload = copy.deepcopy(self.payload)
         new_payload['is_superuser'] = True
 
         response = self.client.post(self.url, new_payload, format='json')
@@ -74,7 +74,7 @@ class UserCreateIntegrationTest(CommonSetUp):
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
 
     def test_create_superuser_and_return_status_code_400_bad_request(self):
-        new_payload = copy.deepcopy(self.invalid_payload_post)
+        new_payload = copy.deepcopy(self.invalid_payload)
         new_payload['is_superuser'] = True
 
         response = self.client.post(self.url, new_payload, format='json')
@@ -82,10 +82,10 @@ class UserCreateIntegrationTest(CommonSetUp):
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
 
     def test_create_superuser_and_return_status_code_404_not_found(self):
-        new_payload = copy.deepcopy(self.invalid_payload_post)
+        new_payload = copy.deepcopy(self.invalid_payload)
         new_payload['is_superuser'] = True
         response = self.client.post(
-            self.invalid_url, self.payload_post, format='json'
+            self.invalid_url, self.payload, format='json'
         )
 
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
@@ -103,7 +103,6 @@ class UserDetailIntegrationTest(CommonSetUp):
         self.payload_patch = {'username': 'ADMIN', 'email': 'teste@gmail.com'}
 
         self.url = reverse('user-list')
-        super().setUp()
 
     def test_get_user_by_id_and_return_status_200_ok(self):
         response = self.client.get(self.url_with_id)
