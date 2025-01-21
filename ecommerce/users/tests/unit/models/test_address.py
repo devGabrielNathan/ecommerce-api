@@ -6,7 +6,7 @@ from ecommerce.users.models.address import Address
 User = get_user_model()
 
 
-class AddressTest(APITestCase):
+class AddressUnitTest(APITestCase):
     @classmethod
     def setUpTestData(cls):
         cls.address = Address.objects.create(

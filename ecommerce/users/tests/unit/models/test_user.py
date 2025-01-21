@@ -4,7 +4,7 @@ from rest_framework.test import APITestCase
 User = get_user_model()
 
 
-class UserTestCase(APITestCase):
+class UserUnitCase(APITestCase):
     @classmethod
     def setUpTestData(cls):
         cls.user = User.objects.create(

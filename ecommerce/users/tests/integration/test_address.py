@@ -1,42 +1,39 @@
 from django.contrib.auth import get_user_model
 from django.urls import reverse
 from rest_framework import status
-from rest_framework.test import APIClient, APITestCase
+from rest_framework.test import APITestCase
 
 from ecommerce.users.models.address import Address
 
 User = get_user_model()
 
 
-class AddressIntegrationTest(APITestCase):
+class CommonSetUp(APITestCase):
     fixtures = ['users.json', 'addresses.json']
 
     def setUp(self):
         self.user_id = User.objects.get(
             pk='d19fb71e-7140-468b-899c-9b940da2476c'
         )
-        self.client = APIClient()
         self.client.force_authenticate(user=self.user_id)
 
         self.address_id = Address.objects.get(
             pk='faafa8bd-a924-473f-86f1-6b12b2dfe3ec'
         )
         self.invalid_address_id = 'ceee9266-9e82-459b-a0a5-f83e2096db82'
-
         self.url = reverse('address-list')
         self.invalid_url = 'invalid-url/'
 
         self.url_with_id = reverse(
             'address-detail', kwargs={'pk': str(self.address_id.id)}
         )
-        self.invalid_url_with_id = (
-            f'addresses/{str(self.invalid_address_id)}/'
-        )
+        self.invalid_url_with_id = f'addresses/{str(self.invalid_address_id)}/'
 
-        self.payload_patch = {
-            'city': 'Imperatriz', 
-            'street': 'Rua Imper'
-        }
+
+class AddressDetailIntegrationTest(CommonSetUp):
+    def setUp(self):
+        super().setUp()
+
         self.payload_update = {
             'state': 'TE',
             'city': 'Teste',
@@ -54,27 +51,9 @@ class AddressIntegrationTest(APITestCase):
             'street': 'Teste',
             'number': '123',
             'complement': 'Teste',
-            'cep': '12345678'
-        }
-        self.payload_post = {
-            'state': 'TE2',
-            'city': 'Teste2',
-            'neighborhood': 'Teste2',
-            'street': 'Teste2',
-            'number': '123',
-            'complement': 'Teste2',
             'cep': '12345678',
-            'user': str(self.user_id.id),
         }
-        self.invalid_payload_post = {
-            'state': 'TE2',
-            'city': 'Teste',
-            'neighborhood': 'Teste2',
-            'street': 'Teste2',
-            'number': '123',
-            'complement': 'Teste2',
-            'cep': '12345678'
-        }
+        self.payload_patch = {'city': 'Imperatriz', 'street': 'Rua Imper'}
 
     def test_get_address_by_id_and_return_status_200_ok(self):
         response = self.client.get(self.url_with_id)
@@ -83,15 +62,6 @@ class AddressIntegrationTest(APITestCase):
 
     def test_get_address_by_id_and_return_status_404_not_found(self):
         response = self.client.get(self.invalid_url_with_id)
-
-        self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
-
-    def test_delete_address_by_id_and_return_status_204_no_content(self):
-        response = self.client.delete(self.url_with_id)
-        self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
-
-    def test_delete_address_by_id_and_return_status_404_not_found(self):
-        response = self.client.delete(self.invalid_url_with_id)
 
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
 
@@ -164,17 +134,55 @@ class AddressIntegrationTest(APITestCase):
 
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
 
+    def test_delete_address_by_id_and_return_status_204_no_content(self):
+        response = self.client.delete(self.url_with_id)
+        self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
+
+    def test_delete_address_by_id_and_return_status_404_not_found(self):
+        response = self.client.delete(self.invalid_url_with_id)
+
+        self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
+
+
+class AddressCreateIntegrationTest(CommonSetUp):
+    def setUp(self):
+        super().setUp()
+
+        self.payload = {
+            'state': 'TE',
+            'city': 'Teste',
+            'neighborhood': 'Teste',
+            'street': 'Teste',
+            'number': '123',
+            'complement': 'Teste',
+            'cep': '12345678',
+            'user': str(self.user_id.id),
+        }
+        self.invalid_payload = {
+            'state': 'TE',
+            'city': 'Teste',
+            'neighborhood': 'Teste',
+            'street': 'Teste',
+            'number': '123',
+            'complement': 'Teste',
+            'cep': '12345678',
+        }
+
     def test_post_address_and_return_status_201_created(self):
-        response = self.client.post(self.url, self.payload_update, format='json')
+        response = self.client.post(self.url, self.payload, format='json')
 
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
 
     def test_post_address_and_return_status_400_bad_request(self):
-        response = self.client.post(self.url, self.invalid_payload_post, format='json')
+        response = self.client.post(
+            self.url, self.invalid_payload, format='json'
+        )
 
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
 
     def test_post_address_and_return_status_404_not_found(self):
-        response = self.client.post(self.invalid_url, self.payload_post, format='json')
+        response = self.client.post(
+            self.invalid_url, self.payload, format='json'
+        )
 
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)

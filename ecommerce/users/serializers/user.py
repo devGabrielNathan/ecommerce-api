@@ -104,9 +104,9 @@ class UserLoginSerializer(serializers.Serializer):
         refresh = RefreshToken.for_user(user)
         access = refresh.access_token
 
-        data['id'] = user.id
-        data['access'] = access
-        data['refresh'] = refresh
+        data['id'] = str(user.id)
+        data['access'] = str(access)
+        data['refresh'] = str(refresh)
 
         return data
 
