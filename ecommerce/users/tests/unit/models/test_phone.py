@@ -9,7 +9,12 @@ User = get_user_model()
 class PhoneUnitTest(APITestCase):
     @classmethod
     def setUpTestData(cls):
-        cls.phone = Phone.objects.create(DDD='41', number='999999999')
+        cls.user = User.objects.create_user(
+            username='UserTest', email='teste@gmail.com', password='123456789'
+        )
+        cls.phone = Phone.objects.create(
+            DDD='41', number='999999999', user=cls.user
+        )
 
     def test_format_str_magic_method(self):
         expected = f'{self.phone.DDD} {self.phone.number}'

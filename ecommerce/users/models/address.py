@@ -20,8 +20,6 @@ class Address(models.Model):
         settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
         related_name='address',
-        null=True,
-        blank=True,
     )
 
     class Meta:

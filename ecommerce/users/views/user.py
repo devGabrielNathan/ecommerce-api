@@ -28,7 +28,7 @@ class UserCreateAccountApiView(CreateAPIView):
 
 class UserDetailApiView(RetrieveUpdateDestroyAPIView):
     serializer_class = UserDetailSerializer
-    permission_classes = (AllowAny,)
+    permission_classes = (IsAuthenticated,)
 
     def get_object(self):
         user = User.objects.get(id=self.kwargs['pk'])

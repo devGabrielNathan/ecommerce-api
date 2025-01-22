@@ -5,6 +5,7 @@ from django.db import models
 
 from ecommerce.store.models.product import Product
 
+
 # Create your models here.
 class Order(models.Model):
     id = models.UUIDField(
@@ -14,6 +15,8 @@ class Order(models.Model):
         settings.AUTH_USER_MODEL,
         on_delete=models.PROTECT,
         related_name='orders',
+        null=True,
+        blank=True
     )
     order_item = models.ManyToManyField(
         Product, through='OrderItem', related_name='orders'

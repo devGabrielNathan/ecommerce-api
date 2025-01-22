@@ -9,6 +9,9 @@ User = get_user_model()
 class AddressUnitTest(APITestCase):
     @classmethod
     def setUpTestData(cls):
+        cls.user = User.objects.create_user(
+            username='UserTest', email='teste@gmail.com', password='123456789'
+        )
         cls.address = Address.objects.create(
             state='MA',
             city='Imperatriz',
@@ -17,6 +20,7 @@ class AddressUnitTest(APITestCase):
             number='456',
             complement='Apto. 1',
             cep='65919250',
+            user=cls.user,
         )
         cls.address_without_complement = Address.objects.create(
             state='MA',
@@ -25,6 +29,7 @@ class AddressUnitTest(APITestCase):
             street='Rua Imperatriz Leopoldina',
             number='456',
             cep='65919250',
+            user=cls.user,
         )
 
     def test_format_str_magic_method_with_complement(self):

@@ -1,16 +1,26 @@
-from rest_framework.generics import CreateAPIView, RetrieveUpdateDestroyAPIView
-from rest_framework.permissions import AllowAny, IsAuthenticated
+from django.contrib.auth import get_user_model
+from rest_framework.generics import (
+    ListCreateAPIView,
+    RetrieveUpdateDestroyAPIView,
+)
+from rest_framework.permissions import IsAuthenticated
 
 from ecommerce.users.models.address import Address
 from ecommerce.users.serializers.address import (
-    AddressCreateSerializer,
     AddressDetailSerializer,
+    AddressListCreateSerializer,
 )
 
+User = get_user_model()
 
-class AddressCreateApiView(CreateAPIView):
-    permission_classes = (AllowAny,)
-    serializer_class = AddressCreateSerializer
+
+class AddressListCreateApiView(ListCreateAPIView):
+    permission_classes = (IsAuthenticated,)
+    serializer_class = AddressListCreateSerializer
+
+    def get_queryset(self):
+        addresses = Address.objects.filter(user=self.request.user)
+        return addresses
 
 
 class AddressDetailApiView(RetrieveUpdateDestroyAPIView):

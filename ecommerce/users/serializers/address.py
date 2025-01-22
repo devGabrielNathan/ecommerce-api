@@ -6,7 +6,7 @@ from ecommerce.users.models.address import Address
 User = get_user_model()
 
 
-class AddressCreateSerializer(serializers.ModelSerializer):
+class AddressListCreateSerializer(serializers.ModelSerializer):
     user = serializers.PrimaryKeyRelatedField(
         queryset=User.objects.all(), required=True
     )

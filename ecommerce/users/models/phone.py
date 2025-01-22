@@ -15,8 +15,6 @@ class Phone(models.Model):
         settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
         related_name='phones',
-        null=True,
-        blank=True,
     )
 
     class Meta:

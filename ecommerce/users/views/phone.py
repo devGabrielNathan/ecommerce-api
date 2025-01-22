@@ -1,19 +1,26 @@
-from rest_framework import generics
+from rest_framework.generics import (
+    ListCreateAPIView,
+    RetrieveUpdateDestroyAPIView,
+)
 from rest_framework.permissions import IsAuthenticated
 
 from ecommerce.users.models.phone import Phone
 from ecommerce.users.serializers.phone import (
-    PhoneCreateSerializer,
     PhoneDetailSerializer,
+    PhoneListCreateSerializer,
 )
 
 
-class PhoneCreateApiView(generics.ListCreateAPIView):
+class PhoneListCreateApiView(ListCreateAPIView):
     permission_classes = (IsAuthenticated,)
-    serializer_class = PhoneCreateSerializer
+    serializer_class = PhoneListCreateSerializer
+
+    def get_queryset(self):
+        phones = Phone.objects.filter(user=self.request.user)
+        return phones
 
 
-class PhoneDetailApiView(generics.RetrieveUpdateDestroyAPIView):
+class PhoneDetailApiView(RetrieveUpdateDestroyAPIView):
     permission_classes = (IsAuthenticated,)
     serializer_class = PhoneDetailSerializer
 

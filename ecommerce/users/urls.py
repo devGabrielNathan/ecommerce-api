@@ -1,12 +1,12 @@
 from django.urls import path
 
 from ecommerce.users.views.address import (
-    AddressCreateApiView,
     AddressDetailApiView,
+    AddressListCreateApiView,
 )
 from ecommerce.users.views.phone import (
-    PhoneCreateApiView,
     PhoneDetailApiView,
+    PhoneListCreateApiView,
 )
 from ecommerce.users.views.user import (
     ResetPasswordApiView,
@@ -26,13 +26,15 @@ urlpatterns = [
         ResetPasswordApiView.as_view(),
         name='password-reset',
     ),
-    path('addresses/', AddressCreateApiView.as_view(), name='address-list'),
+    path(
+        'addresses/', AddressListCreateApiView.as_view(), name='address-list'
+    ),
     path(
         'addresses/<uuid:pk>/',
         AddressDetailApiView.as_view(),
         name='address-detail',
     ),
-    path('phones/', PhoneCreateApiView.as_view(), name='phone-list'),
+    path('phones/', PhoneListCreateApiView.as_view(), name='phone-list'),
     path(
         'phones/<uuid:pk>/',
         PhoneDetailApiView.as_view(),

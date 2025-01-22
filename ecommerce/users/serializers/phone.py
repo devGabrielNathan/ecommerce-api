@@ -6,7 +6,7 @@ from ecommerce.users.models.phone import Phone
 User = get_user_model()
 
 
-class PhoneCreateSerializer(serializers.ModelSerializer):
+class PhoneListCreateSerializer(serializers.ModelSerializer):
     user = serializers.PrimaryKeyRelatedField(
         queryset=User.objects.all(), required=True
     )
