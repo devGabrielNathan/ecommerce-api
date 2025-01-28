@@ -3,7 +3,7 @@ from rest_framework.test import APITestCase
 
 from ecommerce.users.models.phone import Phone
 from ecommerce.users.serializers.phone import (
-    PhoneCreateSerializer,
+    PhoneListCreateSerializer,
     PhoneDetailSerializer,
 )
 
@@ -32,11 +32,11 @@ class CommonSetUp(APITestCase):
         self.phone = Phone.objects.create(**self.phone_attributes)
 
 
-class PhoneCreateSerializerUnitTest(CommonSetUp):
+class PhoneListCreateSerializerUnitTest(CommonSetUp):
     def setUp(self):
         super().setUp()
 
-        self.serializer = PhoneCreateSerializer(instance=self.phone)
+        self.serializer = PhoneListCreateSerializer(instance=self.phone)
         self.data = self.serializer.data
 
     def test_contains_expected_fields(self):
@@ -56,7 +56,7 @@ class PhoneCreateSerializerUnitTest(CommonSetUp):
     #         'number': '999999999',
     #         'user': self.user
     #     }
-    #     serializer = PhoneCreateSerializer(data=payload)
+    #     serializer = PhoneListCreateSerializer(data=payload)
     #     # import pdb; pdb.set_trace()
     #     self.assertTrue(serializer.is_valid())
     #     phone = serializer.save()

@@ -3,7 +3,7 @@ from rest_framework.test import APITestCase
 
 from ecommerce.users.models.address import Address
 from ecommerce.users.serializers.address import (
-    AddressCreateSerializer,
+    AddressListCreateSerializer,
     AddressDetailSerializer,
 )
 
@@ -36,11 +36,11 @@ class CommonSetUp(APITestCase):
         self.address = Address.objects.create(**self.address_attributes)
 
 
-class AddressCreateSerializerUnitTest(CommonSetUp):
+class AddressListCreateSerializerUnitTest(CommonSetUp):
     def setUp(self):
         super().setUp()
 
-        self.serializer = AddressCreateSerializer(instance=self.address)
+        self.serializer = AddressListCreateSerializer(instance=self.address)
         self.data = self.serializer.data
 
     def test_contains_expected_fields(self):

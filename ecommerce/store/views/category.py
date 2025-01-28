@@ -6,8 +6,11 @@ from ecommerce.store.serializers.category import (
     CategoryDetailSerializer,
     CategoryListSerializer,
 )
+from drf_yasg.utils import swagger_auto_schema
 
-
+swagger_attr = {
+    "tags": ["Categories"]
+}
 class CategoryListApiView(ListAPIView):
     serializer_class = CategoryListSerializer
     permission_classes = (AllowAny,)
@@ -15,6 +18,14 @@ class CategoryListApiView(ListAPIView):
     def get_queryset(self):
         categories = Category.objects.all()
         return categories
+    
+    @swagger_auto_schema(
+            **swagger_attr,
+            operation_summary="Listagem de todas as categorias",
+            operation_description="Listagem de todas as categorias disponíveis",
+            )
+    def get(self, request, *args, **kwargs):
+        return super().get(request, *args, **kwargs)
 
 
 class CategoryDetailApiView(RetrieveAPIView):
@@ -24,3 +35,11 @@ class CategoryDetailApiView(RetrieveAPIView):
     def get_object(self):
         category = Category.objects.get(id=self.kwargs['pk'])
         return category
+
+    @swagger_auto_schema(
+            **swagger_attr,
+            operation_summary="Detalhes da categoria",
+            operation_description="Detalhes da categoria selecionada",
+            )
+    def get(self, request, *args, **kwargs):
+        return super().get(request, *args, **kwargs)

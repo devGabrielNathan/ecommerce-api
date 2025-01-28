@@ -15,6 +15,7 @@ from pathlib import Path
 
 from decouple import config
 from dj_database_url import parse as dburl
+from drf_yasg import openapi
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -44,6 +45,7 @@ INSTALLED_APPS = [
 ]
 
 THIRD_PARTY_APPS = [
+    'drf_yasg',
     'rest_framework',
     'django_extensions',
     'rest_framework_simplejwt',
@@ -160,4 +162,15 @@ SIMPLE_JWT = {
     "AUTH_HEADER_TYPES": ("Bearer",),
     'BLACKLIST_AFTER_ROTATION': True,
     'ROTATE_REFRESH_TOKENS': True
+}
+
+SWAGGER_SETTINGS = {
+    'SECURITY_DEFINITIONS': {
+        'Bearer': {
+            'type': 'apiKey',
+            'name': 'Authorization',
+            'in': 'header',
+            'description': "Use o token JWT no formato: 'Bearer <token>'",
+        },
+    },
 }

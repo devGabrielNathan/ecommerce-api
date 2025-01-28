@@ -10,10 +10,15 @@ from ecommerce.users.serializers.address import (
     AddressDetailSerializer,
     AddressListCreateSerializer,
 )
+from drf_yasg.utils import swagger_auto_schema
 
 User = get_user_model()
 
+swagger_attr = {
+    "tags": ["Addresses"]
+}
 
+# Create your views here.
 class AddressListCreateApiView(ListCreateAPIView):
     permission_classes = (IsAuthenticated,)
     serializer_class = AddressListCreateSerializer
@@ -21,6 +26,22 @@ class AddressListCreateApiView(ListCreateAPIView):
     def get_queryset(self):
         addresses = Address.objects.filter(user=self.request.user)
         return addresses
+    
+    @swagger_auto_schema(
+            **swagger_attr,
+            operation_summary="Listagem de todos os endereços",
+            operation_description="Listagem de todos os endereços do usuário logado",
+            )
+    def get(self, request, *args, **kwargs):
+        return super().get(request, *args, **kwargs)
+    
+    @swagger_auto_schema(
+            **swagger_attr,
+            operation_summary="Criação de endereço",
+            operation_description="Criação de endereço para o usuário logado",
+            )
+    def post(self, request, *args, **kwargs):
+        return super().post(request, *args, **kwargs)
 
 
 class AddressDetailApiView(RetrieveUpdateDestroyAPIView):
@@ -30,3 +51,31 @@ class AddressDetailApiView(RetrieveUpdateDestroyAPIView):
     def get_object(self):
         address = Address.objects.get(id=self.kwargs['pk'])
         return address
+    
+    @swagger_auto_schema(
+            **swagger_attr,
+            operation_summary="Detalhes do endereço",
+            operation_description="Detalhes do endereço do usuário logado",
+            )
+    def get(self, request, *args, **kwargs):
+        return super().get(request, *args, **kwargs)
+    
+    @swagger_auto_schema(
+            **swagger_attr,
+            operation_summary="Atualização das informações de endereço",
+            operation_description="Atualização das informações de endereço do usuário logado"
+            )
+    def put(self, request, *args, **kwargs):
+        return super().put(request, *args, **kwargs)
+    
+    @swagger_auto_schema(auto_schema=None)
+    def patch(self, request, *args, **kwargs):
+        return super().patch(request, *args, **kwargs)
+    
+    @swagger_auto_schema(
+            **swagger_attr,
+            operation_summary="Remoção de endereço",
+            operation_description="Remoção de endereço do usuário logado"
+            )
+    def delete(self, request, *args, **kwargs):
+        return super().delete(request, *args, **kwargs)

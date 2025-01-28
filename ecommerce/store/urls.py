@@ -23,12 +23,12 @@ urlpatterns = [
     path(
         'subcategories/',
         SubcategoryListApiView.as_view(),
-        name='category-list',
+        name='subcategory-list',
     ),
     path(
         'subcategories/<uuid:pk>/',
         SubcategoryDetailApiView.as_view(),
-        name='category-detail',
+        name='subcategory-detail',
     ),
     path(
         'products/',
