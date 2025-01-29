@@ -1,10 +1,8 @@
+from django.contrib.auth import get_user_model
+from django.core.cache import cache
 from rest_framework import serializers
 
 from ecommerce.orders.models.order import Order
-
-from django.contrib.auth import get_user_model
-
-from django.core.cache import cache
 
 User = get_user_model()
 
@@ -15,17 +13,14 @@ class OrderListCreateSerializer(serializers.ModelSerializer):
     )
 
     class Meta:
-        fields = [
-            'id',
-            'user'
-        ]
+        fields = ['id', 'user']
 
         model = Order
 
     def create(self, validated_data):
         user = self.context['request'].user
         request = self.context['request']
-        
+
         if user.is_authenticated:
             order = Order.objects.create(user=user, **validated_data)
         else:
@@ -39,8 +34,9 @@ class OrderListCreateSerializer(serializers.ModelSerializer):
             orders = cache.get(f'orders_{session_key}', [])
             orders.append(order.id)
             cache.set(f'orders_{session_key}', orders, timeout=60 * 60 * 24)
-        
+
         return order
+
 
 class OrderDetailSerializer(serializers.ModelSerializer):
     user = serializers.PrimaryKeyRelatedField(
@@ -48,9 +44,6 @@ class OrderDetailSerializer(serializers.ModelSerializer):
     )
 
     class Meta:
-        fields = [
-            'id',
-            'user'
-        ]
+        fields = ['id', 'user']
 
         model = Order

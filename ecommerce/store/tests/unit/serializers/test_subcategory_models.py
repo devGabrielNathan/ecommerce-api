@@ -1,13 +1,17 @@
+from uuid import uuid4
+
 from django.contrib.auth import get_user_model
 from rest_framework.test import APITestCase
 
 from ecommerce.store.models.category import Category
 from ecommerce.store.models.subcategory import Subcategory
-from uuid import uuid4
-
-from ecommerce.store.serializers.subcategory import SubcategoryListSerializer, SubcategoryDetailSerializer
+from ecommerce.store.serializers.subcategory import (
+    SubcategoryDetailSerializer,
+    SubcategoryListSerializer,
+)
 
 User = get_user_model()
+
 
 class CommonSetUp(APITestCase):
     @classmethod
@@ -23,61 +27,68 @@ class CommonSetUp(APITestCase):
             'id': uuid4(),
             'name': 'Smartphones',
             'status': 'active',
-            'category': cls.category
+            'category': cls.category,
         }
-        cls.subcategory = Subcategory.objects.create(**cls.subcategory_attributes)
+        cls.subcategory = Subcategory.objects.create(
+            **cls.subcategory_attributes
+        )
+
 
 class SubcategoryListSerializerUnitTest(CommonSetUp):
-    def setUp(self):
-        super().setUp()
+    @classmethod
+    def setUpTestData(cls):
+        super().setUpTestData()
 
-        self.serializer = SubcategoryListSerializer(instance=self.subcategory)
-        self.data = self.serializer.data
+        cls.serializer = SubcategoryListSerializer(instance=cls.subcategory)
+        cls.data = cls.serializer.data
 
     def test_contains_expected_fields(self):
         self.assertCountEqual(
             self.data.keys(),
-            [
-                'id',
-                'name',
-                'status',
-                'category'
-            ],
+            ['id', 'name', 'status', 'category'],
         )
 
     def test_name_field_content(self):
-        self.assertEqual(self.data['name'], self.subcategory_attributes['name'])
+        self.assertEqual(
+            self.data['name'], self.subcategory_attributes['name']
+        )
 
     def test_status_field_content(self):
-        self.assertEqual(self.data['status'], self.subcategory_attributes['status'])
+        self.assertEqual(
+            self.data['status'], self.subcategory_attributes['status']
+        )
 
     def test_category_field_content(self):
-        self.assertEqual(self.data['category'], self.subcategory_attributes['category'].id)
+        self.assertEqual(
+            self.data['category'], self.subcategory_attributes['category'].id
+        )
 
 
 class SubcategoryDetailSerializerUnitTest(CommonSetUp):
-    def setUp(self):
-        super().setUp()
+    @classmethod
+    def setUpTestData(cls):
+        super().setUpTestData()
 
-        self.serializer = SubcategoryDetailSerializer(instance=self.subcategory)
-        self.data = self.serializer.data
-    
+        cls.serializer = SubcategoryDetailSerializer(instance=cls.subcategory)
+        cls.data = cls.serializer.data
+
     def test_contains_expected_fields(self):
         self.assertCountEqual(
             self.data.keys(),
-            [
-                'id',
-                'name',
-                'status',
-                'category'
-            ],
+            ['id', 'name', 'status', 'category'],
         )
 
     def test_name_field_content(self):
-        self.assertEqual(self.data['name'], self.subcategory_attributes['name'])
+        self.assertEqual(
+            self.data['name'], self.subcategory_attributes['name']
+        )
 
     def test_status_field_content(self):
-        self.assertEqual(self.data['status'], self.subcategory_attributes['status'])
+        self.assertEqual(
+            self.data['status'], self.subcategory_attributes['status']
+        )
 
     def test_category_field_content(self):
-        self.assertEqual(self.data['category'], self.subcategory_attributes['category'].id)
+        self.assertEqual(
+            self.data['category'], self.subcategory_attributes['category'].id
+        )

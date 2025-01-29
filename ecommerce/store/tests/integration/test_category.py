@@ -7,6 +7,7 @@ from ecommerce.store.models.category import Category
 
 User = get_user_model()
 
+
 class CommonSetUp(APITestCase):
     fixtures = ['categories.json']
 
@@ -39,10 +40,10 @@ class CategoryListIntegrationTest(CommonSetUp):
 
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
 
+
 class CategoryDetailIntegrationTest(CommonSetUp):
     def setUp(self):
         super().setUp()
-
 
     def test_get_category_by_id_and_return_status_200_ok(self):
         response = self.client.get(self.url_with_id)

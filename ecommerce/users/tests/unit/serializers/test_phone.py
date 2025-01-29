@@ -3,41 +3,43 @@ from rest_framework.test import APITestCase
 
 from ecommerce.users.models.phone import Phone
 from ecommerce.users.serializers.phone import (
-    PhoneListCreateSerializer,
     PhoneDetailSerializer,
+    PhoneListCreateSerializer,
 )
 
 User = get_user_model()
 
 
 class CommonSetUp(APITestCase):
-    def setUp(self):
-        self.user_attributes = {
+    @classmethod
+    def setUpTestData(cls):
+        cls.user_attributes = {
             'username': 'testuser',
             'email': 'testuser@example.com',
             'password': 'testpassword123',
             'password_confirmation': 'testpassword123',
         }
-        self.user = User.objects.create_user(
-            username=self.user_attributes['username'],
-            email=self.user_attributes['email'],
-            password=self.user_attributes['password'],
+        cls.user = User.objects.create_user(
+            username=cls.user_attributes['username'],
+            email=cls.user_attributes['email'],
+            password=cls.user_attributes['password'],
         )
 
-        self.phone_attributes = {
+        cls.phone_attributes = {
             'DDD': '22',
             'number': '999999999',
-            'user': self.user,
+            'user': cls.user,
         }
-        self.phone = Phone.objects.create(**self.phone_attributes)
+        cls.phone = Phone.objects.create(**cls.phone_attributes)
 
 
 class PhoneListCreateSerializerUnitTest(CommonSetUp):
-    def setUp(self):
-        super().setUp()
+    @classmethod
+    def setUpTestData(cls):
+        super().setUpTestData()
 
-        self.serializer = PhoneListCreateSerializer(instance=self.phone)
-        self.data = self.serializer.data
+        cls.serializer = PhoneListCreateSerializer(instance=cls.phone)
+        cls.data = cls.serializer.data
 
     def test_contains_expected_fields(self):
         self.assertCountEqual(
@@ -50,27 +52,17 @@ class PhoneListCreateSerializerUnitTest(CommonSetUp):
     def test_number_field_content(self):
         self.assertEqual(self.data['number'], self.phone_attributes['number'])
 
-    # def test_create_phone(self):
-    #     payload = {
-    #         'DDD': '22',
-    #         'number': '999999999',
-    #         'user': self.user
-    #     }
-    #     serializer = PhoneListCreateSerializer(data=payload)
-    #     # import pdb; pdb.set_trace()
-    #     self.assertTrue(serializer.is_valid())
-    #     phone = serializer.save()
-    #     self.assertEqual(phone.DDD, payload['DDD'])
-    #     self.assertEqual(phone.number, payload['number'])
-    #     self.assertTrue(phone.check_user(payload['user']))
+    def test_user_field_content(self):
+        self.assertEqual(self.data['user'], self.phone_attributes['user'].id)
 
 
 class PhoneDetailSerializerUnitTest(CommonSetUp):
-    def setUp(self):
-        super().setUp()
+    @classmethod
+    def setUpTestData(cls):
+        super().setUpTestData()
 
-        self.serializer = PhoneDetailSerializer(instance=self.phone)
-        self.data = self.serializer.data
+        cls.serializer = PhoneDetailSerializer(instance=cls.phone)
+        cls.data = cls.serializer.data
 
     def test_contains_expected_fields(self):
         self.assertCountEqual(
@@ -82,3 +74,6 @@ class PhoneDetailSerializerUnitTest(CommonSetUp):
 
     def test_number_field_content(self):
         self.assertEqual(self.data['number'], self.phone_attributes['number'])
+
+    def test_user_field_content(self):
+        self.assertEqual(self.data['user'], self.phone_attributes['user'].id)

@@ -7,6 +7,7 @@ from ecommerce.store.models.subcategory import Subcategory
 
 User = get_user_model()
 
+
 class CommonSetUp(APITestCase):
     fixtures = ['categories.json', 'subcategories.json']
 
@@ -22,7 +23,10 @@ class CommonSetUp(APITestCase):
         self.url_with_id = reverse(
             'subcategory-detail', kwargs={'pk': str(self.subcategory_id.id)}
         )
-        self.invalid_url_with_id = f'subcategories/{str(self.invalid_subcategory_id)}/'
+        self.invalid_url_with_id = (
+            f'subcategories/{str(self.invalid_subcategory_id)}/'
+        )
+
 
 class ProductListIntegrationTest(CommonSetUp):
     def setUp(self):
@@ -37,6 +41,7 @@ class ProductListIntegrationTest(CommonSetUp):
         response = self.client.get(self.invalid_url)
 
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
+
 
 class SubCategoryDetailIntegrationTest(CommonSetUp):
     def setUp(self):

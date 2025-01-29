@@ -4,15 +4,15 @@ from ecommerce.store.views.category import (
     CategoryDetailApiView,
     CategoryListApiView,
 )
+from ecommerce.store.views.product import (
+    ProductDetailApiView,
+    ProductListApiView,
+)
 from ecommerce.store.views.subcategory import (
     SubcategoryDetailApiView,
     SubcategoryListApiView,
 )
 
-from ecommerce.store.views.product import (
-    ProductDetailApiView,
-    ProductListApiView,
-)
 urlpatterns = [
     path('categories/', CategoryListApiView.as_view(), name='category-list'),
     path(

@@ -10,8 +10,18 @@ class ProductListSerializer(serializers.ModelSerializer):
     )
 
     class Meta:
-        fields = ['id', 'brand', 'name', 'description', 'price', 'quantity', 'status', 'subcategory']
+        fields = [
+            'id',
+            'brand',
+            'name',
+            'description',
+            'price',
+            'quantity',
+            'status',
+            'subcategory',
+        ]
         model = Product
+
 
 class ProductDetailSerializer(serializers.ModelSerializer):
     subcategory = serializers.PrimaryKeyRelatedField(
@@ -19,6 +29,14 @@ class ProductDetailSerializer(serializers.ModelSerializer):
     )
 
     class Meta:
-        fields = ['id', 'brand', 'name', 'description', 'price', 'quantity', 'status', 'subcategory']
+        fields = [
+            'id',
+            'brand',
+            'name',
+            'description',
+            'price',
+            'quantity',
+            'status',
+            'subcategory',
+        ]
         model = Product
-

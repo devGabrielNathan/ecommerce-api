@@ -7,6 +7,7 @@ from ecommerce.store.models.product import Product
 
 User = get_user_model()
 
+
 class CommonSetUp(APITestCase):
     fixtures = ['categories.json', 'subcategories.json', 'products.json']
 
@@ -24,6 +25,7 @@ class CommonSetUp(APITestCase):
         )
         self.invalid_url_with_id = f'products/{str(self.invalid_product_id)}/'
 
+
 class ProductListIntegrationTest(CommonSetUp):
     def setUp(self):
         super().setUp()
@@ -37,6 +39,7 @@ class ProductListIntegrationTest(CommonSetUp):
         response = self.client.get(self.invalid_url)
 
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
+
 
 class productDetailIntegrationTest(CommonSetUp):
     def setUp(self):

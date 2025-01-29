@@ -1,14 +1,16 @@
-from rest_framework.generics import ListCreateAPIView, RetrieveAPIView
-from rest_framework.permissions import AllowAny
-from ecommerce.orders.serializers.order import OrderListCreateSerializer, OrderDetailSerializer
-from ecommerce.orders.models.order import Order
-
 from django.core.cache import cache
 from drf_yasg.utils import swagger_auto_schema
+from rest_framework.generics import ListCreateAPIView, RetrieveAPIView
+from rest_framework.permissions import AllowAny
 
-swagger_attr = {
-    "tags": ["Orders"]
-}
+from ecommerce.orders.models.order import Order
+from ecommerce.orders.serializers.order import (
+    OrderDetailSerializer,
+    OrderListCreateSerializer,
+)
+
+swagger_attr = {'tags': ['Orders']}
+
 
 class OrderListCreateAPIView(ListCreateAPIView):
     serializer_class = OrderListCreateSerializer
@@ -30,20 +32,21 @@ class OrderListCreateAPIView(ListCreateAPIView):
 
     @swagger_auto_schema(
         **swagger_attr,
-        operation_summary="Listagem de todos os pedidos",
-        operation_description="Listagem de todos os pedidos do usuário logado",
+        operation_summary='Listagem de todos os pedidos',
+        operation_description='Listagem de todos os pedidos do usuário logado',
     )
     def get(self, request, *args, **kwargs):
         return super().get(request, *args, **kwargs)
-    
+
     @swagger_auto_schema(
         **swagger_attr,
-        operation_summary="Criação de pedido",
-        operation_description="Criação de pedido para o usuário logado",
+        operation_summary='Criação de pedido',
+        operation_description='Criação de pedido para o usuário logado',
     )
     def post(self, request, *args, **kwargs):
         return super().post(request, *args, **kwargs)
-    
+
+
 class OrderDetailApiView(RetrieveAPIView):
     serializer_class = OrderDetailSerializer
     permission_classes = (AllowAny,)
@@ -53,8 +56,8 @@ class OrderDetailApiView(RetrieveAPIView):
 
     @swagger_auto_schema(
         **swagger_attr,
-        operation_summary="Detalhes do pedido",
-        operation_description="Detalhes do pedido do usuário logado",
+        operation_summary='Detalhes do pedido',
+        operation_description='Detalhes do pedido do usuário logado',
     )
     def get(self, request, *args, **kwargs):
         return super().get(request, *args, **kwargs)

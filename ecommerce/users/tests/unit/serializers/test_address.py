@@ -3,27 +3,28 @@ from rest_framework.test import APITestCase
 
 from ecommerce.users.models.address import Address
 from ecommerce.users.serializers.address import (
-    AddressListCreateSerializer,
     AddressDetailSerializer,
+    AddressListCreateSerializer,
 )
 
 User = get_user_model()
 
 
 class CommonSetUp(APITestCase):
-    def setUp(self):
-        self.user_attributes = {
+    @classmethod
+    def setUpTestData(cls):
+        cls.user_attributes = {
             'username': 'testuser',
             'email': 'testuser@example.com',
             'password': 'testpassword123',
             'password_confirmation': 'testpassword123',
         }
-        self.user = User.objects.create_user(
-            username=self.user_attributes['username'],
-            email=self.user_attributes['email'],
-            password=self.user_attributes['password'],
+        cls.user = User.objects.create_user(
+            username=cls.user_attributes['username'],
+            email=cls.user_attributes['email'],
+            password=cls.user_attributes['password'],
         )
-        self.address_attributes = {
+        cls.address_attributes = {
             'state': 'SP',
             'city': 'São Paulo',
             'neighborhood': 'Centro',
@@ -31,17 +32,18 @@ class CommonSetUp(APITestCase):
             'number': '123',
             'complement': 'Apto 45',
             'cep': '01001-000',
-            'user': self.user,
+            'user': cls.user,
         }
-        self.address = Address.objects.create(**self.address_attributes)
+        cls.address = Address.objects.create(**cls.address_attributes)
 
 
 class AddressListCreateSerializerUnitTest(CommonSetUp):
-    def setUp(self):
-        super().setUp()
+    @classmethod
+    def setUpTestData(cls):
+        super().setUpTestData()
 
-        self.serializer = AddressListCreateSerializer(instance=self.address)
-        self.data = self.serializer.data
+        cls.serializer = AddressListCreateSerializer(instance=cls.address)
+        cls.data = cls.serializer.data
 
     def test_contains_expected_fields(self):
         self.assertCountEqual(
@@ -90,11 +92,12 @@ class AddressListCreateSerializerUnitTest(CommonSetUp):
 
 
 class AddressDetailSerializerUnitTest(CommonSetUp):
-    def setUp(self):
-        super().setUp()
+    @classmethod
+    def setUpTestData(cls):
+        super().setUpTestData()
 
-        self.serializer = AddressDetailSerializer(instance=self.address)
-        self.data = self.serializer.data
+        cls.serializer = AddressDetailSerializer(instance=cls.address)
+        cls.data = cls.serializer.data
 
     def test_contains_expected_fields(self):
         self.assertCountEqual(

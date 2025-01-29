@@ -1,14 +1,18 @@
+from uuid import uuid4
+
 from django.contrib.auth import get_user_model
 from rest_framework.test import APITestCase
 
-from ecommerce.store.models.product import Product
 from ecommerce.store.models.category import Category
+from ecommerce.store.models.product import Product
 from ecommerce.store.models.subcategory import Subcategory
-from uuid import uuid4
-
-from ecommerce.store.serializers.product import ProductListSerializer, ProductDetailSerializer
+from ecommerce.store.serializers.product import (
+    ProductDetailSerializer,
+    ProductListSerializer,
+)
 
 User = get_user_model()
+
 
 class CommonSetUp(APITestCase):
     @classmethod
@@ -24,9 +28,11 @@ class CommonSetUp(APITestCase):
             'id': uuid4(),
             'name': 'Smartphones',
             'status': 'active',
-            'category': cls.category
+            'category': cls.category,
         }
-        cls.subcategory = Subcategory.objects.create(**cls.subcategory_attributes)
+        cls.subcategory = Subcategory.objects.create(
+            **cls.subcategory_attributes
+        )
 
         cls.product_attributes = {
             'id': uuid4(),
@@ -36,17 +42,19 @@ class CommonSetUp(APITestCase):
             'price': '7999.99',
             'quantity': 10,
             'status': 'active',
-            'subcategory': cls.subcategory
+            'subcategory': cls.subcategory,
         }
 
         cls.product = Product.objects.create(**cls.product_attributes)
 
-class ProductListSerializerUnitTest(CommonSetUp):
-    def setUp(self):
-        super().setUp()
 
-        self.serializer = ProductListSerializer(instance=self.product)
-        self.data = self.serializer.data
+class ProductListSerializerUnitTest(CommonSetUp):
+    @classmethod
+    def setUpTestData(cls):
+        super().setUpTestData()
+
+        cls.serializer = ProductListSerializer(instance=cls.product)
+        cls.data = cls.serializer.data
 
     def test_contains_expected_fields(self):
         self.assertCountEqual(
@@ -59,7 +67,7 @@ class ProductListSerializerUnitTest(CommonSetUp):
                 'price',
                 'quantity',
                 'status',
-                'subcategory'
+                'subcategory',
             ],
         )
 
@@ -70,27 +78,36 @@ class ProductListSerializerUnitTest(CommonSetUp):
         self.assertEqual(self.data['name'], self.product_attributes['name'])
 
     def test_description_field_content(self):
-        self.assertEqual(self.data['description'], self.product_attributes['description'])
+        self.assertEqual(
+            self.data['description'], self.product_attributes['description']
+        )
 
     def test_price_field_content(self):
         self.assertEqual(self.data['price'], self.product_attributes['price'])
 
     def test_quantity_field_content(self):
-        self.assertEqual(self.data['quantity'], self.product_attributes['quantity'])
+        self.assertEqual(
+            self.data['quantity'], self.product_attributes['quantity']
+        )
 
     def test_status_field_content(self):
-        self.assertEqual(self.data['status'], self.product_attributes['status'])
+        self.assertEqual(
+            self.data['status'], self.product_attributes['status']
+        )
 
     def test_subcategory_field_content(self):
-        self.assertEqual(self.data['subcategory'], self.product_attributes['subcategory'].id)
+        self.assertEqual(
+            self.data['subcategory'], self.product_attributes['subcategory'].id
+        )
 
 
 class ProductDetailSerializerUnitTest(CommonSetUp):
-    def setUp(self):
-        super().setUp()
+    @classmethod
+    def setUpTestData(cls):
+        super().setUpTestData()
 
-        self.serializer = ProductDetailSerializer(instance=self.product)
-        self.data = self.serializer.data
+        cls.serializer = ProductDetailSerializer(instance=cls.product)
+        cls.data = cls.serializer.data
 
     def test_contains_expected_fields(self):
         self.assertCountEqual(
@@ -103,7 +120,7 @@ class ProductDetailSerializerUnitTest(CommonSetUp):
                 'price',
                 'quantity',
                 'status',
-                'subcategory'
+                'subcategory',
             ],
         )
 
@@ -114,16 +131,24 @@ class ProductDetailSerializerUnitTest(CommonSetUp):
         self.assertEqual(self.data['name'], self.product_attributes['name'])
 
     def test_description_field_content(self):
-        self.assertEqual(self.data['description'], self.product_attributes['description'])
+        self.assertEqual(
+            self.data['description'], self.product_attributes['description']
+        )
 
     def test_price_field_content(self):
         self.assertEqual(self.data['price'], self.product_attributes['price'])
 
     def test_quantity_field_content(self):
-        self.assertEqual(self.data['quantity'], self.product_attributes['quantity'])
+        self.assertEqual(
+            self.data['quantity'], self.product_attributes['quantity']
+        )
 
     def test_status_field_content(self):
-        self.assertEqual(self.data['status'], self.product_attributes['status'])
+        self.assertEqual(
+            self.data['status'], self.product_attributes['status']
+        )
 
     def test_subcategory_field_content(self):
-        self.assertEqual(self.data['subcategory'], self.product_attributes['subcategory'].id)
+        self.assertEqual(
+            self.data['subcategory'], self.product_attributes['subcategory'].id
+        )

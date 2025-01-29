@@ -16,7 +16,7 @@ class Order(models.Model):
         on_delete=models.PROTECT,
         related_name='orders',
         null=True,
-        blank=True
+        blank=True,
     )
     order_item = models.ManyToManyField(
         Product, through='OrderItem', related_name='orders'

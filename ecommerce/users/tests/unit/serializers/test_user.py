@@ -1,3 +1,5 @@
+from abc import ABC, abstractmethod
+
 from django.contrib.auth import get_user_model
 from rest_framework.test import APITestCase
 
@@ -9,7 +11,13 @@ from ecommerce.users.serializers.user import (
 User = get_user_model()
 
 
-class UserCreateAccountSerializerUnitTest(APITestCase):
+class CommonSetUp(ABC, APITestCase):
+    @abstractmethod
+    def setUp(self):
+        pass
+
+
+class UserCreateAccountSerializerUnitTest(CommonSetUp):
     def setUp(self):
         self.user_attributes = {
             'username': 'testuser',
@@ -62,7 +70,7 @@ class UserCreateAccountSerializerUnitTest(APITestCase):
         )
 
 
-class UserDetailSerializerUnitTest(APITestCase):
+class UserDetailSerializerUnitTest(CommonSetUp):
     def setUp(self):
         self.user_attributes = {'username': 'teste', 'email': 'test@gmail.com'}
         self.user = User.objects.create_user(
@@ -82,3 +90,11 @@ class UserDetailSerializerUnitTest(APITestCase):
 
     def test_email_field_content(self):
         self.assertEqual(self.data['email'], self.user_attributes['email'])
+
+
+class UserLoginSerializerUnitTest(CommonSetUp):
+    def setUp(self): ...
+
+
+class UserLogoutSerializerUnitTest(CommonSetUp):
+    def setUp(self): ...
