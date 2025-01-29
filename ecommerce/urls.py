@@ -20,16 +20,14 @@ from django.urls import include, path, re_path
 from drf_yasg import openapi
 from drf_yasg.views import get_schema_view
 from rest_framework.permissions import AllowAny
-from rest_framework_simplejwt.views import TokenRefreshView
+
+from ecommerce.refresh_token import RefreshToken
 
 schema_view = get_schema_view(
     openapi.Info(
         title='E-commerce API',
         default_version='v1',
-        description="API protegida com autenticação JWT. Use o formato 'Bearer <token>' para autenticar.",
-        terms_of_service='https://www.example.com/terms/',
-        contact=openapi.Contact(email='contact@snippets.local'),
-        license=openapi.License(name='BSD License'),
+        description='API feita com Django Rest Framework para a simulação de um e-commerce seguindo boas práticas de desenvolvimento.',
     ),
     public=True,
     permission_classes=(AllowAny,),
@@ -40,7 +38,7 @@ urlpatterns = [
     path('api/', include('ecommerce.users.urls')),
     path('api/', include('ecommerce.store.urls')),
     path('api/', include('ecommerce.orders.urls')),
-    path('api/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
+    path('api/refresh/', RefreshToken.as_view(), name='token_refresh'),
 ]
 
 urlpatterns += [
