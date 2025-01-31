@@ -1,4 +1,3 @@
-from django.core.cache import cache
 from drf_yasg.utils import swagger_auto_schema
 from rest_framework.generics import ListCreateAPIView, RetrieveAPIView
 from rest_framework.permissions import AllowAny
@@ -17,18 +16,19 @@ class OrderListCreateAPIView(ListCreateAPIView):
     permission_classes = (AllowAny,)
 
     def get_queryset(self):
-        if self.request.user.is_authenticated:
-            return Order.objects.filter(user=self.request.user)
+        user = self.request.user
+        cart_id = self.request.headers.get('Cart_ID')
+
+        if user.is_authenticated:
+            cart, _ = Order.objects.get_or_create(user=user)
+
+        elif cart_id:
+            cart, _ = Order.objects.get_or_create(id=cart_id)
 
         else:
-            session_key = self.request.session.session_key
-            if not session_key:
-                self.request.session.create()
-                session_key = self.request.session.session_key
+            cart = Order.objects.none()
 
-            order_ids = cache.get(f'orders_{session_key}', [])
-
-            return Order.objects.filter(id__in=order_ids)
+        return cart
 
     @swagger_auto_schema(
         **swagger_attr,

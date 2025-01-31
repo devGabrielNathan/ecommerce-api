@@ -25,6 +25,13 @@ class Product(models.Model):
     def __str__(self) -> str:
         return f'{self.brand} - {self.name}'
 
+    def save(self, *args, **kwargs):
+        if self.quantity == 0:
+            self.status = Status.INACTIVE
+        if self.quantity > 0 and self.status == Status.INACTIVE:
+            self.status = Status.ACTIVE
+        super().save(*args, **kwargs)
+
     class Meta:
         db_table = 'product'
         verbose_name = 'Product'

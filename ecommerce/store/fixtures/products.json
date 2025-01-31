@@ -6,8 +6,8 @@
             "brand": "Apple",
             "name": "Iphone 12",
             "description":"X",
-            "price":"699.00",
-            "quantity":"100",
+            "price":699.00,
+            "quantity":2,
             "subcategory": "4d825b96-ef23-4218-b382-c4eb3618b0f0"
         }
     },
@@ -18,8 +18,8 @@
             "brand": "Samsung",
             "name": "Samsung Galaxy A10",
             "description":"X",
-            "price":"699.00",
-            "quantity":"100",
+            "price":699.00,
+            "quantity":2,
             "subcategory": "4d825b96-ef23-4218-b382-c4eb3618b0f0"
         }
     },
@@ -30,8 +30,8 @@
             "brand": "Motorola",
             "name": "Moto E",
             "description":"X",
-            "price":"699.00",
-            "quantity":"100",
+            "price":699.00,
+            "quantity":2,
             "subcategory": "4d825b96-ef23-4218-b382-c4eb3618b0f0"
         }
     }

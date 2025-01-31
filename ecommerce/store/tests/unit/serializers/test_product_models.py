@@ -39,8 +39,8 @@ class CommonSetUp(APITestCase):
             'brand': 'Apple',
             'name': 'iPhone 12',
             'description': 'iPhone 12 64GB',
-            'price': '7999.99',
-            'quantity': 10,
+            'price': 799.99,
+            'quantity': 2,
             'status': 'active',
             'subcategory': cls.subcategory,
         }
@@ -83,7 +83,9 @@ class ProductListSerializerUnitTest(CommonSetUp):
         )
 
     def test_price_field_content(self):
-        self.assertEqual(self.data['price'], self.product_attributes['price'])
+        self.assertEqual(
+            self.data['price'], str(self.product_attributes['price'])
+        )
 
     def test_quantity_field_content(self):
         self.assertEqual(
@@ -136,7 +138,9 @@ class ProductDetailSerializerUnitTest(CommonSetUp):
         )
 
     def test_price_field_content(self):
-        self.assertEqual(self.data['price'], self.product_attributes['price'])
+        self.assertEqual(
+            self.data['price'], str(self.product_attributes['price'])
+        )
 
     def test_quantity_field_content(self):
         self.assertEqual(
