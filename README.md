@@ -7,7 +7,7 @@ Este repositório contém um projeto desenvolvido utilizando Django e Django RES
 Antes de começar, verifique se você possui as seguintes ferramentas instaladas em sua máquina:
 
 - Python (3.12 ou superior)
-- Poetry (gerenciador de dependências para Python) ou pip/venv
+- Poetry (gerenciador de dependências para Python)
 - PostgreSQL (caso utilize esse banco de dados)
 
 ## Passo 1: Clonar o repositório
@@ -26,38 +26,18 @@ Isso criará uma cópia local do repositório em seu ambiente.
 cd ecommerce-api-drf
 ```
 
-## Passo 3: Escolher o gerenciador de dependências
+## Passo 3: Instalar dependências
 
-Você pode instalar as dependências usando Poetry ou pip/venv.
-
-### Usando Poetry
-
-Crie e ative um ambiente virtual:
+Crie e ative um ambiente virtual com Poetry:
 
 ```bash
 poetry shell
 ```
 
-Instale as dependências:
+Instale as dependências do projeto:
 
 ```bash
 poetry install
-```
-
-### Usando venv e pip
-
-Crie e ative um ambiente virtual:
-
-```bash
-python -m venv venv
-source venv/bin/activate  # No Windows, use `venv\Scripts\activate`
-```
-
-Instale as dependências:
-
-```bash
-pip install -r requirements.txt
-pip install -r requirements-dev.txt  # Caso deseje instalar dependências adicionais
 ```
 
 ## Passo 4: Configurar variáveis de ambiente
@@ -69,8 +49,8 @@ O projeto pode exigir algumas variáveis de ambiente para funcionar corretamente
 Caso utilize o PostgreSQL, configure as credenciais no arquivo `.env` e execute os seguintes comandos:
 
 ```bash
-python manage.py makemigrations
-python manage.py migrate
+poetry run python manage.py makemigrations
+poetry run python manage.py migrate
 ```
 
 > **Nota:** Um superusuário padrão será criado automaticamente com as credenciais `admin@admin.com` e senha `admin@admin123`.
@@ -83,13 +63,13 @@ Para iniciar o servidor Django, execute o seguinte comando:
 python manage.py runserver
 ```
 
-Se você instalou as dependências adicionais, também pode executar:
+Isso iniciará o servidor e você poderá acessá-lo através do seu navegador no endereço `http://localhost:8000`.
+
+Se você tiver instalado as dependências de desenvolvimento, também poderá usar o **Taskipy** para rodar o servidor:
 
 ```bash
 task run
 ```
-
-Isso iniciará o servidor e você poderá acessá-lo através do seu navegador no endereço `http://localhost:8000`.
 
 ## Passo 7: Rodar os testes
 
@@ -98,7 +78,8 @@ Para rodar os testes automatizados do projeto, utilize o comando:
 ```bash
 python manage.py test
 ```
-Se você instalou as dependências adicionais, também pode executar:
+
+Se você tiver instalado as dependências de desenvolvimento, também poderá usar o **Taskipy** para rodar os testes:
 
 ```bash
 task test
