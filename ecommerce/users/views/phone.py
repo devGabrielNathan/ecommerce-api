@@ -4,6 +4,7 @@ from rest_framework.generics import (
     RetrieveUpdateDestroyAPIView,
 )
 from rest_framework.permissions import IsAuthenticated
+from rest_framework_simplejwt.authentication import JWTAuthentication
 
 from ecommerce.users.models.phone import Phone
 from ecommerce.users.serializers.phone import (
@@ -16,6 +17,7 @@ swagger_attr = {'tags': ['Phones']}
 
 class PhoneListCreateApiView(ListCreateAPIView):
     permission_classes = (IsAuthenticated,)
+    authentication_classes = (JWTAuthentication,)
     serializer_class = PhoneListCreateSerializer
 
     def get_queryset(self):
@@ -41,6 +43,7 @@ class PhoneListCreateApiView(ListCreateAPIView):
 
 class PhoneDetailApiView(RetrieveUpdateDestroyAPIView):
     permission_classes = (IsAuthenticated,)
+    authentication_classes = (JWTAuthentication,)
     serializer_class = PhoneDetailSerializer
 
     def get_object(self):

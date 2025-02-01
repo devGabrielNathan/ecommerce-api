@@ -63,7 +63,6 @@ INSTALLED_APPS += THIRD_PARTY_APPS + LOCAL_APPS
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
-    'ecommerce.orders.middleware.StatelessOrderMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -156,9 +155,10 @@ REST_FRAMEWORK = {
     ),
 }
 
+
 SIMPLE_JWT = {
-    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=15),
-    "REFRESH_TOKEN_LIFETIME": timedelta(hours=2),
+    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=60),
+    "REFRESH_TOKEN_LIFETIME": timedelta(hours=1),
     "ALGORITHM": "HS256",
     "AUTH_HEADER_TYPES": ("Bearer",),
     'BLACKLIST_AFTER_ROTATION': True,

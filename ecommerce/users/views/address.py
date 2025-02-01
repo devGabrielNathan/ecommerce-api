@@ -5,6 +5,7 @@ from rest_framework.generics import (
     RetrieveUpdateDestroyAPIView,
 )
 from rest_framework.permissions import IsAuthenticated
+from rest_framework_simplejwt.authentication import JWTAuthentication
 
 from ecommerce.users.models.address import Address
 from ecommerce.users.serializers.address import (
@@ -20,6 +21,7 @@ swagger_attr = {'tags': ['Addresses']}
 # Create your views here.
 class AddressListCreateApiView(ListCreateAPIView):
     permission_classes = (IsAuthenticated,)
+    authentication_classes = (JWTAuthentication,)
     serializer_class = AddressListCreateSerializer
 
     def get_queryset(self):
@@ -45,6 +47,7 @@ class AddressListCreateApiView(ListCreateAPIView):
 
 class AddressDetailApiView(RetrieveUpdateDestroyAPIView):
     permission_classes = (IsAuthenticated,)
+    authentication_classes = (JWTAuthentication,)
     serializer_class = AddressDetailSerializer
 
     def get_object(self):

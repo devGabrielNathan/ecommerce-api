@@ -1,6 +1,7 @@
 from drf_yasg.utils import swagger_auto_schema
 from rest_framework.generics import ListCreateAPIView, RetrieveAPIView
-from rest_framework.permissions import AllowAny
+from rest_framework.permissions import IsAuthenticated
+from rest_framework_simplejwt.authentication import JWTAuthentication
 
 from ecommerce.orders.models.order import Order
 from ecommerce.orders.serializers.order import (
@@ -13,22 +14,11 @@ swagger_attr = {'tags': ['Orders']}
 
 class OrderListCreateAPIView(ListCreateAPIView):
     serializer_class = OrderListCreateSerializer
-    permission_classes = (AllowAny,)
+    permission_classes = (IsAuthenticated,)
+    authentication_classes = (JWTAuthentication,)
 
     def get_queryset(self):
-        user = self.request.user
-        cart_id = self.request.headers.get('Cart_ID')
-
-        if user.is_authenticated:
-            cart, _ = Order.objects.get_or_create(user=user)
-
-        elif cart_id:
-            cart, _ = Order.objects.get_or_create(id=cart_id)
-
-        else:
-            cart = Order.objects.none()
-
-        return cart
+        return Order.objects.filter(user=self.request.user)
 
     @swagger_auto_schema(
         **swagger_attr,
@@ -49,7 +39,8 @@ class OrderListCreateAPIView(ListCreateAPIView):
 
 class OrderDetailApiView(RetrieveAPIView):
     serializer_class = OrderDetailSerializer
-    permission_classes = (AllowAny,)
+    permission_classes = (IsAuthenticated,)
+    authentication_classes = (JWTAuthentication,)
 
     def get_queryset(self):
         return Order.objects.filter(user=self.request.user)

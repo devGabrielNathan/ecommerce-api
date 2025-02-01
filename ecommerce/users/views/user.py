@@ -9,6 +9,7 @@ from rest_framework.generics import (
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
+from rest_framework_simplejwt.authentication import JWTAuthentication
 
 from ecommerce.users.serializers.user import (
     ResetPasswordSerializer,
@@ -40,6 +41,7 @@ class UserCreateAccountApiView(CreateAPIView):
 class UserDetailApiView(RetrieveUpdateDestroyAPIView):
     serializer_class = UserDetailSerializer
     permission_classes = (IsAuthenticated,)
+    authentication_classes = [JWTAuthentication]
 
     def get_object(self):
         user = User.objects.get(id=self.kwargs['pk'])
@@ -98,6 +100,7 @@ class UserLoginApiView(APIView):
 class UserLogoutApiView(APIView):
     serializer_class = UserLogoutSerializer
     permission_classes = (IsAuthenticated,)
+    authentication_classes = [JWTAuthentication]
 
     @swagger_auto_schema(
         **swagger_attr,
@@ -119,6 +122,7 @@ class UserLogoutApiView(APIView):
 class ResetPasswordApiView(UpdateAPIView):
     serializer_class = ResetPasswordSerializer
     permission_classes = (IsAuthenticated,)
+    authentication_classes = [JWTAuthentication]
 
     def get_object(self):
         user = User.objects.get(id=self.kwargs['pk'])
