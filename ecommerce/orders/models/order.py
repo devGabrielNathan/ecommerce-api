@@ -29,10 +29,6 @@ class Order(models.Model):
     def items(self):
         return self.order_items.all()
 
-    # @property.setter
-    # def items(self, value):
-    #     self.order_item.set(value)
-
     class Meta:
         db_table = 'order'
         verbose_name = 'Order'

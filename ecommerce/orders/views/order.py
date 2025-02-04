@@ -1,5 +1,8 @@
 from drf_yasg.utils import swagger_auto_schema
-from rest_framework.generics import ListCreateAPIView, RetrieveAPIView
+from rest_framework.generics import (
+    ListCreateAPIView,
+    RetrieveUpdateDestroyAPIView,
+)
 from rest_framework.permissions import IsAuthenticated
 from rest_framework_simplejwt.authentication import JWTAuthentication
 
@@ -37,7 +40,7 @@ class OrderListCreateAPIView(ListCreateAPIView):
         return super().post(request, *args, **kwargs)
 
 
-class OrderDetailApiView(RetrieveAPIView):
+class OrderDetailApiView(RetrieveUpdateDestroyAPIView):
     serializer_class = OrderDetailSerializer
     permission_classes = (IsAuthenticated,)
     authentication_classes = (JWTAuthentication,)
@@ -52,3 +55,11 @@ class OrderDetailApiView(RetrieveAPIView):
     )
     def get(self, request, *args, **kwargs):
         return super().get(request, *args, **kwargs)
+
+    @swagger_auto_schema(
+        **swagger_attr,
+        operation_summary='Atualização do pedido',
+        operation_description='Atualização do pedido do usuário logado',
+    )
+    def put(self, request, *args, **kwargs):
+        return super().put(request, *args, **kwargs)

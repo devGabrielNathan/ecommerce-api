@@ -2,7 +2,6 @@ from django.contrib.auth import get_user_model
 from rest_framework.test import APITestCase
 
 from ecommerce.orders.models.order import Order
-from ecommerce.orders.models.order_item import OrderItem
 from ecommerce.store.models.category import Category
 from ecommerce.store.models.product import Product
 from ecommerce.store.models.subcategory import Subcategory
@@ -29,16 +28,8 @@ class OrderItemUnitTest(APITestCase):
             subcategory=cls.subcategory,
         )
         cls.order = Order.objects.create(user=cls.user)
-        cls.order_item = OrderItem.objects.create(
-            order=cls.order, product=cls.product, quantity=2
-        )
 
     def test_str_magic_method(self):
-        expected = f'{self.product.name} ({self.order_item.quantity} - R$ {self.order_item.subtotal})'
+        expected = f'{self.order.id}'
 
-        self.assertEqual(str(self.order_item), expected)
-
-    def test_save_method(self):
-        expected = self.product.price * self.order_item.quantity
-
-        self.assertEqual(self.order_item.subtotal, expected)
+        self.assertEqual(str(self.order), expected)

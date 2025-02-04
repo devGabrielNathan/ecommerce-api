@@ -10,7 +10,7 @@ User = get_user_model()
 
 class OrderListCreateSerializer(serializers.ModelSerializer):
     user = serializers.PrimaryKeyRelatedField(
-        queryset=User.objects.all(), required=False
+        queryset=User.objects.all(), required=True
     )
     items = OrderItemSerializer(many=True)
 
@@ -24,19 +24,36 @@ class OrderListCreateSerializer(serializers.ModelSerializer):
         order = Order.objects.create(**validated_data)
 
         for item_data in items_data:
-            list_of_items = OrderItem.objects.create(
+            product = item_data['product']
+            quantity = item_data['quantity']
+
+            if quantity > product.quantity:
+                if product.status == 'inactive':
+                    raise serializers.ValidationError(
+                        f'O produto {product.name} está inativo.'
+                    )
+                raise serializers.ValidationError(
+                    f'A quantidade solicitada para {product.name} excede o estoque disponível ({product.quantity}).'
+                )
+
+            order_item = OrderItem.objects.create(
                 order=order,
-                product=item_data['product'],
-                quantity=item_data['quantity'],
+                product=product,
+                quantity=quantity,
             )
-            order.order_item.add(list_of_items.product)
+
+            product.quantity -= quantity
+            product.save()
+
+            order_item.subtotal = product.price * quantity
+            order_item.save()
 
         return order
 
 
 class OrderDetailSerializer(serializers.ModelSerializer):
     user = serializers.PrimaryKeyRelatedField(
-        queryset=User.objects.all(), required=False
+        queryset=User.objects.all(), required=True
     )
     items = OrderItemSerializer(many=True)
 
@@ -44,22 +61,5 @@ class OrderDetailSerializer(serializers.ModelSerializer):
         fields = ['id', 'user', 'items']
 
         model = Order
-
-
-# # Não preciso de uma view para esse cara
-# pedido_produto = {
-#     'pedido': 'Teste',
-#     'produto': 'Computador',
-#     'quantidade': 1,
-# }
-
-# # Só para esse
-# pedido = {
-#     'nome': 'Teste',
-#     'items': [pedido_produto],
-# }
-
-# # E para esse
-# produto = {
-#     'nome': 'Computador',
-# }
+        read_only_fields = ['id', 'user']
+        required_fields = ['items']
