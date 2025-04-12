@@ -1,4 +1,5 @@
 from drf_yasg.utils import swagger_auto_schema
+from rest_framework.exceptions import PermissionDenied
 from rest_framework.generics import (
     ListCreateAPIView,
     RetrieveUpdateDestroyAPIView,
@@ -48,6 +49,10 @@ class PhoneDetailApiView(RetrieveUpdateDestroyAPIView):
 
     def get_object(self):
         phone = Phone.objects.get(id=self.kwargs['pk'])
+        if phone.user != self.request.user:
+            raise PermissionDenied(
+                'Você não tem permissão para acessar este telefone.'
+            )
         return phone
 
     @swagger_auto_schema(

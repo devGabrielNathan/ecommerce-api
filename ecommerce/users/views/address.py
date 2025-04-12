@@ -1,5 +1,6 @@
 from django.contrib.auth import get_user_model
 from drf_yasg.utils import swagger_auto_schema
+from rest_framework.exceptions import PermissionDenied
 from rest_framework.generics import (
     ListCreateAPIView,
     RetrieveUpdateDestroyAPIView,
@@ -52,6 +53,11 @@ class AddressDetailApiView(RetrieveUpdateDestroyAPIView):
 
     def get_object(self):
         address = Address.objects.get(id=self.kwargs['pk'])
+
+        if address.user != self.request.user:
+            raise PermissionDenied(
+                'Você não tem permissão para acessar este endereço.'
+            )
         return address
 
     @swagger_auto_schema(

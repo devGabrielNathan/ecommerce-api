@@ -63,7 +63,7 @@ class OrderDetailApiView(RetrieveUpdateDestroyAPIView):
     )
     def put(self, request, *args, **kwargs):
         return super().put(request, *args, **kwargs)
-    
+
     @swagger_auto_schema(auto_schema=None)
     def patch(self, request, *args, **kwargs):
         return super().patch(request, *args, **kwargs)
@@ -75,4 +75,3 @@ class OrderDetailApiView(RetrieveUpdateDestroyAPIView):
     )
     def delete(self, request, *args, **kwargs):
         return super().delete(request, *args, **kwargs)
-    
