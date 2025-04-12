@@ -63,3 +63,16 @@ class OrderDetailApiView(RetrieveUpdateDestroyAPIView):
     )
     def put(self, request, *args, **kwargs):
         return super().put(request, *args, **kwargs)
+    
+    @swagger_auto_schema(auto_schema=None)
+    def patch(self, request, *args, **kwargs):
+        return super().patch(request, *args, **kwargs)
+
+    @swagger_auto_schema(
+        **swagger_attr,
+        operation_summary='Exclusão do pedido',
+        operation_description='Exclusão do pedido do usuário logado',
+    )
+    def delete(self, request, *args, **kwargs):
+        return super().delete(request, *args, **kwargs)
+    
