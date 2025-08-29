@@ -4,6 +4,7 @@ from django.db import models
 
 from ecommerce.core.utils import Status
 from ecommerce.store.models.subcategory import Subcategory
+# from cloudinary.models import CloudinaryField
 
 
 class Product(models.Model):
@@ -14,6 +15,8 @@ class Product(models.Model):
     name = models.CharField(max_length=255)
     description = models.TextField(null=False, blank=False)
     price = models.DecimalField(max_digits=7, decimal_places=2)
+    image = models.ImageField(upload_to='products/', null=True, blank=True, default='products/sacola_amarela.png')
+    # image = CloudinaryField('image')
     quantity = models.PositiveIntegerField()
     status = models.CharField(
         max_length=8, choices=Status.choices, default=Status.ACTIVE

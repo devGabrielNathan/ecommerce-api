@@ -12,19 +12,5 @@
             "cep": "01001-000",
             "user": "d19fb71e-7140-468b-899c-9b940da2476c"
         }
-    },
-    {
-        "model": "users.address",
-        "pk": "865b13fe-add7-4379-b879-85602d983833",
-        "fields": {
-            "state": "RJ",
-            "city": "Rio de Janeiro",
-            "neighborhood": "Copacabana",
-            "street": "Avenida Atlântica",
-            "number": "456",
-            "complement": "",
-            "cep": "22010-000",
-            "user": "d19fb71e-7140-468b-899c-9b940da2476c"
-        }
     }
 ]

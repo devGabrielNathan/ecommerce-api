@@ -17,6 +17,10 @@ from decouple import config
 from dj_database_url import parse as dburl
 from drf_yasg import openapi
 
+import cloudinary
+import cloudinary.uploader
+import cloudinary.api
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -33,8 +37,8 @@ DEBUG = config('DEBUG', default=False, cast=bool)
 ALLOWED_HOSTS = ['*']
 
 AUTH_USER_MODEL = 'users.User'
-# Application definition
 
+# Application definition
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -47,6 +51,7 @@ INSTALLED_APPS = [
 THIRD_PARTY_APPS = [
     'drf_yasg',
     'corsheaders',
+    'cloudinary',
     'rest_framework',
     'django_extensions',
     'rest_framework_simplejwt',
@@ -142,6 +147,10 @@ STATIC_URL = 'static/'
 
 STATIC_ROOT = Path.joinpath(BASE_DIR, 'staticfiles')
 
+MEDIA_URL = '/media/'
+
+MEDIA_ROOT = Path.joinpath(BASE_DIR, 'media')
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
@@ -155,6 +164,8 @@ REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     ),
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    'PAGE_SIZE': 2
 }
 
 
@@ -180,9 +191,11 @@ SWAGGER_SETTINGS = {
 
 CORS_ALLOW_ALL_ORIGINS = True
 
-CORS_ALLOWED_ORIGINS = [
-    "http://localhost:5173",
-]
-
-# Para permitir o envio de credenciais (cookies, autorizações, etc.)
 CORS_ALLOW_CREDENTIALS = True
+
+cloudinary.config(
+    cloud_name=config('CLOUDINARY_CLOUD_NAME'),
+    api_key=config('CLOUDINARY_API_KEY'),
+    api_secret=config('CLOUDINARY_API_SECRET'),
+    secure=True
+)

@@ -16,7 +16,7 @@ class Address(models.Model):
     number = models.CharField(max_length=20, null=False, blank=False)
     complement = models.CharField(max_length=255, null=True, blank=True)
     cep = models.CharField(max_length=8, null=False, blank=False)
-    user = models.ForeignKey(
+    user = models.OneToOneField(
         settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
         related_name='address',

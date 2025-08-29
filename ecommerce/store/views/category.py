@@ -31,10 +31,13 @@ class CategoryListApiView(ListAPIView):
 class CategoryDetailApiView(RetrieveAPIView):
     serializer_class = CategoryDetailSerializer
     permission_classes = (AllowAny,)
-
     def get_object(self):
         category = Category.objects.get(id=self.kwargs['pk'])
         return category
+
+    def get_queryset(self):
+        categories = Category.objects.all()
+        return categories
 
     @swagger_auto_schema(
         **swagger_attr,

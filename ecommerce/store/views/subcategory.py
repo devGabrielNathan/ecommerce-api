@@ -40,6 +40,10 @@ class SubcategoryDetailApiView(RetrieveAPIView):
         subcategory = Subcategory.objects.get(id=self.kwargs['pk'])
         return subcategory
 
+    def get_queryset(self):
+        subcategories = Subcategory.objects.all()
+        return subcategories
+
     @swagger_auto_schema(
         **swagger_attr,
         operation_summary='Detalhes da subcategoria',

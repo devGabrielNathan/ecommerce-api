@@ -25,5 +25,32 @@
             "status": "active",
             "category": "8f091eaf-a582-437c-ad2b-f689a69cf401"
         }
+    },
+    {
+        "model": "store.Subcategory",
+        "pk": "4d825b96-ef23-4218-b382-c4eb3618b0f1",
+        "fields": {
+            "name": "Masculino",
+            "status": "active",
+            "category": "8f091eaf-a582-437c-ad2b-f689a69cf402"
+        }
+    },
+    {
+        "model": "store.Subcategory",
+        "pk": "0766103e-1d77-4309-b140-7c1c69479afe",
+        "fields": {
+            "name": "Feminino",
+            "status": "active",
+            "category": "8f091eaf-a582-437c-ad2b-f689a69cf402"
+        }
+    },
+    {
+        "model": "store.Subcategory",
+        "pk": "583fc120-ca3a-4a92-95e6-e3ce45facd1b",
+        "fields": {
+            "name": "Infantil",
+            "status": "active",
+            "category": "8f091eaf-a582-437c-ad2b-f689a69cf402"
+        }
     }
 ]

@@ -1,6 +1,7 @@
 from ecommerce.users.admin.address import AddressAdmin, AddressInline
 from ecommerce.users.admin.phone import PhoneAdmin, PhoneInline
 from ecommerce.users.admin.user import UserAdmin
+from ecommerce.users.admin.profile import ProfileAdmin
 
 __all__ = [
     'UserAdmin',
@@ -8,4 +9,5 @@ __all__ = [
     'AddressInline',
     'PhoneAdmin',
     'PhoneInline',
+    'ProfileAdmin',
 ]

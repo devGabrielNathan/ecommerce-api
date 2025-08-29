@@ -11,7 +11,7 @@ class Phone(models.Model):
     )
     DDD = models.CharField(max_length=3, default='21', null=False, blank=False)
     number = models.CharField(max_length=9, null=False, blank=False)
-    user = models.ForeignKey(
+    user = models.OneToOneField(
         settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
         related_name='phones',

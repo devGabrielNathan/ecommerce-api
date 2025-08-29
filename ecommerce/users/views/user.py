@@ -1,4 +1,6 @@
 from django.contrib.auth import get_user_model
+from django.utils.decorators import method_decorator
+from django.views.decorators.csrf import csrf_exempt
 from drf_yasg.utils import swagger_auto_schema
 from rest_framework import status
 from rest_framework.generics import (
@@ -46,6 +48,10 @@ class UserDetailApiView(RetrieveUpdateDestroyAPIView):
     def get_object(self):
         user = User.objects.get(id=self.kwargs['pk'])
         return user
+
+    def get_queryset(self):
+        users = User.objects.all()
+        return users
 
     @swagger_auto_schema(
         **swagger_attr,

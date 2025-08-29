@@ -1,5 +1,7 @@
 from drf_yasg.utils import swagger_auto_schema
 from rest_framework.generics import ListAPIView, RetrieveAPIView
+from rest_framework.pagination import PageNumberPagination
+# from rest_framework.pagination import LimitOffsetPagination
 from rest_framework.permissions import AllowAny
 
 from ecommerce.store.models.product import Product
@@ -14,6 +16,9 @@ swagger_attr = {'tags': ['Products']}
 class ProductListApiView(ListAPIView):
     serializer_class = ProductListSerializer
     permission_classes = (AllowAny,)
+    pagination_class = PageNumberPagination
+    pagination_class.page_size = 10
+
 
     def get_queryset(self):
         return Product.objects.all()
@@ -34,6 +39,10 @@ class ProductDetailApiView(RetrieveAPIView):
     def get_object(self):
         product = Product.objects.get(pk=self.kwargs['pk'])
         return product
+
+    def get_queryset(self):
+        products = Product.objects.all()
+        return products
 
     @swagger_auto_schema(
         **swagger_attr,

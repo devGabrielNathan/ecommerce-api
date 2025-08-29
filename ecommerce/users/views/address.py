@@ -60,6 +60,10 @@ class AddressDetailApiView(RetrieveUpdateDestroyAPIView):
             )
         return address
 
+    def get_queryset(self):
+        addresses = Address.objects.filter(user=self.request.user)
+        return addresses
+
     @swagger_auto_schema(
         **swagger_attr,
         operation_summary='Detalhes do endereço',

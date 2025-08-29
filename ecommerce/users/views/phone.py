@@ -55,6 +55,10 @@ class PhoneDetailApiView(RetrieveUpdateDestroyAPIView):
             )
         return phone
 
+    def get_queryset(self):
+        phones = Phone.objects.filter(user=self.request.user)
+        return phones
+
     @swagger_auto_schema(
         **swagger_attr,
         operation_summary='Detalhes do telefone',

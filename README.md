@@ -1,86 +1,66 @@
-# Ecommerce API
+<div align="center">
+  <h1 style="font-size: 32px; border: none; line-height: 0; font-weight: bold">🛒 Ecommerce API</h1>
+  <p>API REST desenvolvida com Django e Django REST Framework para sistema de e-commerce completo</p>
+    <div style="margin-bottom: 10px">
+    <img src="https://img.shields.io/badge/Language-Python-blue.svg" alt="Language: Python"/>
+    <img src="https://img.shields.io/badge/Framework-Django-green.svg" alt="Framework: Django"/>
+    <img src="https://img.shields.io/badge/API-DRF-orange.svg" alt="API: Django REST Framework"/>
+    <img src="https://img.shields.io/badge/Database-PostgreSQL-blue.svg" alt="Database: PostgreSQL"/>
+    <img src="https://img.shields.io/badge/License-MIT-green.svg" alt="License: MIT"/>
+    </div>
+    <br>
+</div>
 
-Este repositório contém um projeto desenvolvido utilizando Django e Django REST Framework (DRF). Neste arquivo README, você encontrará um guia passo a passo para abrir o projeto em seu ambiente local.
+# Links Rápidos
+
+- [Descrição](#descrição)
+- [Arquitetura do Sistema](#arquitetura-do-sistema)
+- [Pré-requisitos](#pré-requisitos)
+- [Instalação](#instalação)
+- [Configuração](#configuração)
+- [Uso](#uso)
+- [Testes](#testes)
+- [Funcionalidades](#funcionalidades)
+- [Estrutura do Projeto](#estrutura-do-projeto)
+- [Contribuição](#contribuição)
+- [Licença](#licença)
+
+## Descrição
+
+Esta API REST oferece um backend completo para sistemas de e-commerce, desenvolvida com **Django** e **Django REST Framework (DRF)**. A API fornece endpoints para gerenciamento de produtos, usuários, pedidos, carrinho de compras e autenticação.
+
+### Características Principais
+
+- 🔐 **Autenticação JWT** para segurança robusta
+- 🛍️ **Gestão completa de produtos** com categorias e variações
+- 🛒 **Sistema de carrinho** com persistência
+- 📦 **Controle de pedidos** com rastreamento de status
+- 👥 **Gerenciamento de usuários** com perfis personalizados
+- 🔍 **Sistema de busca** e filtros avançados
+- 📊 **Dashboard administrativo** integrado
+- 🌐 **API RESTful** com documentação automática
+
+## Arquitetura do Sistema
+
+Este projeto faz parte de um ecossistema completo de e-commerce dividido em 3 repositórios:
+
+- **[ecommerce-api](https://github.com/devGabrielNathan/ecommerce-api)** - Backend API (este repositório)
+- **[ecommerce-client](https://github.com/devGabrielNathan/ecommerce-client)** - Frontend React
+- **[ecommerce-compose](https://github.com/devGabrielNathan/ecommerce-compose)** - Orquestração Docker
 
 ## Pré-requisitos
 
-Antes de começar, verifique se você possui as seguintes ferramentas instaladas em sua máquina:
+Antes de começar, verifique se você possui as seguintes ferramentas instaladas:
 
-- Python (3.12 ou superior)
-- Poetry (gerenciador de dependências para Python)
-- PostgreSQL (caso utilize esse banco de dados)
+- **Python** 3.12 ou superior
+- **Poetry** (gerenciador de dependências)
+- **PostgreSQL** (banco de dados)
+- **Git** para controle de versão
 
-## Passo 1: Clonar o repositório
+## Instalação
 
-Comece clonando este repositório para sua máquina local. Abra o terminal e execute o seguinte comando:
+### Passo 1: Clonar o repositório
 
 ```bash
 git clone https://github.com/devGabrielNathan/ecommerce-api-drf.git
-```
-
-Isso criará uma cópia local do repositório em seu ambiente.
-
-## Passo 2: Navegar até o diretório do projeto
-
-```bash
 cd ecommerce-api-drf
-```
-
-## Passo 3: Instalar dependências
-
-Crie e ative um ambiente virtual com Poetry:
-
-```bash
-poetry shell
-```
-
-Instale as dependências do projeto:
-
-```bash
-poetry install
-```
-
-## Passo 4: Configurar variáveis de ambiente
-
-O projeto pode exigir algumas variáveis de ambiente para funcionar corretamente. Verifique se existe um arquivo `.env.example` no diretório raiz do projeto. Se existir, faça uma cópia desse arquivo e renomeie-o para `.env`. Em seguida, atualize as variáveis de ambiente de acordo com as configurações do seu ambiente local.
-
-## Passo 5: Configurar o banco de dados
-
-Caso utilize o PostgreSQL, configure as credenciais no arquivo `.env` e execute os seguintes comandos:
-
-```bash
-poetry run python manage.py makemigrations
-poetry run python manage.py migrate
-```
-
-> **Nota:** Um superusuário padrão será criado automaticamente com as credenciais `admin@admin.com` e senha `admin@admin123`.
-
-## Passo 6: Iniciar o servidor
-
-Para iniciar o servidor Django, execute o seguinte comando:
-
-```bash
-python manage.py runserver
-```
-
-Isso iniciará o servidor e você poderá acessá-lo através do seu navegador no endereço `http://localhost:8000`.
-
-Se você tiver instalado as dependências de desenvolvimento, também poderá usar o **Taskipy** para rodar o servidor:
-
-```bash
-task run
-```
-
-## Passo 7: Rodar os testes
-
-Para rodar os testes automatizados do projeto, utilize o comando:
-
-```bash
-python manage.py test
-```
-
-Se você tiver instalado as dependências de desenvolvimento, também poderá usar o **Taskipy** para rodar os testes:
-
-```bash
-task test
-```

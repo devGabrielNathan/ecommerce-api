@@ -4,35 +4,233 @@
         "pk": "905a69f3-11db-4f99-b80f-23d5ba2be758",
         "fields": {
             "brand": "Apple",
-            "name": "Iphone 12",
-            "description":"X",
-            "price":699.00,
-            "quantity":2,
+            "name": "iPhone 14",
+            "description": "Smartphone de última geração com tela Retina de 6.1 polegadas, chip A15 Bionic e câmera dupla de 12MP.",
+            "price": 4999.00,
+            "image": "products/sacola_amarela.png",
+            "quantity": 10,
             "subcategory": "4d825b96-ef23-4218-b382-c4eb3618b0f0"
         }
     },
     {
         "model": "store.Product",
-        "pk": "a677244a-5a41-4f8e-8662-3371c7a2c8fd",
+        "pk": "ca4b0214-c0dc-46d3-87f0-a33f8f25dd5b",
         "fields": {
             "brand": "Samsung",
-            "name": "Samsung Galaxy A10",
-            "description":"X",
-            "price":699.00,
-            "quantity":2,
+            "name": "Galaxy S23",
+            "description": "Celular com tela Dynamic AMOLED 2X de 6.1 polegadas, processador Snapdragon 8 Gen 2 e câmera tripla de 50MP.",
+            "price": 4299.00,
+            "image": "products/sacola_amarela.png",
+            "quantity": 15,
             "subcategory": "4d825b96-ef23-4218-b382-c4eb3618b0f0"
         }
     },
     {
         "model": "store.Product",
-        "pk": "a31ce857-a18b-425c-94f1-bbb305d66e61",
+        "pk": "b063591f-a313-411b-a0de-60ecc101d614",
         "fields": {
-            "brand": "Motorola",
-            "name": "Moto E",
-            "description":"X",
-            "price":699.00,
-            "quantity":2,
+            "brand": "Xiaomi",
+            "name": "Redmi Note 12",
+            "description": "Smartphone com tela AMOLED de 6.67 polegadas, processador Snapdragon 4 Gen 1 e bateria de 5000mAh.",
+            "price": 1499.00,
+            "image": "products/sacola_amarela.png",
+            "quantity": 20,
             "subcategory": "4d825b96-ef23-4218-b382-c4eb3618b0f0"
+        }
+    },
+    {
+        "model": "store.Product",
+        "pk": "0752fffd-3494-4329-818c-b1a12233c28a",
+        "fields": {
+            "brand": "Dell",
+            "name": "XPS 13",
+            "description": "Notebook ultrafino com tela InfinityEdge de 13.4 polegadas, processador Intel Core i7 e 16GB de RAM.",
+            "price": 7999.00,
+            "image": "products/sacola_amarela.png",
+            "quantity": 8,
+            "subcategory": "0766103e-1d77-4309-b140-7c1c69479afd"
+        }
+    },
+    {
+        "model": "store.Product",
+        "pk": "8804399b-a92e-42b9-b04a-0cdf59adc2df",
+        "fields": {
+            "brand": "Lenovo",
+            "name": "ThinkPad X1 Carbon",
+            "description": "Notebook empresarial com tela de 14 polegadas, Intel Core i5 e durabilidade certificada MIL-STD-810H.",
+            "price": 6899.00,
+            "image": "products/sacola_amarela.png",
+            "quantity": 12,
+            "subcategory": "0766103e-1d77-4309-b140-7c1c69479afd"
+        }
+    },
+    {
+        "model": "store.Product",
+        "pk": "422d2d4e-c838-40f9-a1b8-8e568c64f497",
+        "fields": {
+            "brand": "HP",
+            "name": "Spectre x360",
+            "description": "Convertible 2-em-1 com tela touchscreen de 13.5 polegadas, Intel Core i7 e 512GB SSD.",
+            "price": 7499.00,
+            "image": "products/sacola_amarela.png",
+            "quantity": 10,
+            "subcategory": "0766103e-1d77-4309-b140-7c1c69479afd"
+        }
+    },
+    {
+        "model": "store.Product",
+        "pk": "b8898d9f-7f41-4687-a29a-3314729743be",
+        "fields": {
+            "brand": "Sony",
+            "name": "PlayStation 5",
+            "description": "Console de próxima geração com SSD ultrarrápido, gráficos 4K e controle DualSense.",
+            "price": 4999.00,
+            "image": "products/sacola_amarela.png",
+            "quantity": 15,
+            "subcategory": "583fc120-ca3a-4a92-95e6-e3ce45facd1a"
+        }
+    },
+    {
+        "model": "store.Product",
+        "pk": "b6eba336-80e3-4d3b-bd7b-6436d5800c2b",
+        "fields": {
+            "brand": "Nintendo",
+            "name": "Switch OLED",
+            "description": "Console híbrido com tela OLED de 7 polegadas, joy-cons destacáveis e biblioteca de jogos variada.",
+            "price": 2999.00,
+            "image": "products/sacola_amarela.png",
+            "quantity": 20,
+            "subcategory": "583fc120-ca3a-4a92-95e6-e3ce45facd1a"
+        }
+    },
+    {
+        "model": "store.Product",
+        "pk": "01968cdc-0a14-4057-9dc7-3d15922046cb",
+        "fields": {
+            "brand": "Microsoft",
+            "name": "Xbox Series X",
+            "description": "Console poderoso com gráficos em 4K, SSD NVMe e compatibilidade com jogos anteriores.",
+            "price": 4799.00,
+            "image": "products/sacola_amarela.png",
+            "quantity": 12,
+            "subcategory": "583fc120-ca3a-4a92-95e6-e3ce45facd1a"
+        }
+    },
+    {
+        "model": "store.Product",
+        "pk": "4353c4ce-38d4-4bed-bdf8-6074e8deea68",
+        "fields": {
+            "brand": "Nike",
+            "name": "Tênis Air Max 90",
+            "description": "Tênis masculino com design clássico, sola amortecida e opções de cores modernas.",
+            "price": 599.90,
+            "image": "products/sacola_amarela.png",
+            "quantity": 25,
+            "subcategory": "4d825b96-ef23-4218-b382-c4eb3618b0f1"
+        }
+    },
+    {
+        "model": "store.Product",
+        "pk": "2727e84d-0ac7-4769-bae7-2a3046c67a43",
+        "fields": {
+            "brand": "Adidas",
+            "name": "Jaqueta Bomber",
+            "description": "Jaqueta masculina leve com forro térmico e estampa minimalista.",
+            "price": 799.00,
+            "image": "products/sacola_amarela.png",
+            "quantity": 18,
+            "subcategory": "4d825b96-ef23-4218-b382-c4eb3618b0f1"
+        }
+    },
+    {
+        "model": "store.Product",
+        "pk": "da1bf451-d931-46a4-a293-7bbd832edbe6",
+        "fields": {
+            "brand": "Levi's",
+            "name": "Calça Jeans Slim",
+            "description": "Calça masculina com corte slim, tecido resistente e lavagem média.",
+            "price": 349.90,
+            "image": "products/sacola_amarela.png",
+            "quantity": 30,
+            "subcategory": "4d825b96-ef23-4218-b382-c4eb3618b0f1"
+        }
+    },
+    {
+        "model": "store.Product",
+        "pk": "bbabae89-52ae-44c7-a5cb-5c1749b35e26",
+        "fields": {
+            "brand": "Zara",
+            "name": "Vestido Midi Floral",
+            "description": "Vestido feminino com estampa floral, caimento leve e decote em V.",
+            "price": 399.00,
+            "image": "products/sacola_amarela.png",
+            "quantity": 22,
+            "subcategory": "0766103e-1d77-4309-b140-7c1c69479afe"
+        }
+    },
+    {
+        "model": "store.Product",
+        "pk": "53461111-21af-4908-8f1f-fae14e4626e3",
+        "fields": {
+            "brand": "H&M",
+            "name": "Blusa Cropped",
+            "description": "Blusa feminina cropped com tecido leve e detalhes em renda.",
+            "price": 149.90,
+            "image": "products/sacola_amarela.png",
+            "quantity": 28,
+            "subcategory": "0766103e-1d77-4309-b140-7c1c69479afe"
+        }
+    },
+    {
+        "model": "store.Product",
+        "pk": "e008582c-a038-419b-8d00-6215cc2f0a82",
+        "fields": {
+            "brand": "Calvin Klein",
+            "name": "Sutiã de Renda",
+            "description": "Sutiã feminino com detalhes em renda, conforto e suporte ideal.",
+            "price": 199.00,
+            "image": "products/sacola_amarela.png",
+            "quantity": 15,
+            "subcategory": "0766103e-1d77-4309-b140-7c1c69479afe"
+        }
+    },
+    {
+        "model": "store.Product",
+        "pk": "407a4da7-5a03-4e33-87be-03fefcda9848",
+        "fields": {
+            "brand": "Carter's",
+            "name": "Conjunto Infantil Estampado",
+            "description": "Conjunto infantil com camiseta e short, estampa divertida e tecido macio.",
+            "price": 99.90,
+            "image": "products/sacola_amarela.png",
+            "quantity": 35,
+            "subcategory": "583fc120-ca3a-4a92-95e6-e3ce45facd1b"
+        }
+    },
+    {
+        "model": "store.Product",
+        "pk": "0b010d07-cc30-4910-af07-f791f8d5d4e1",
+        "fields": {
+            "brand": "Pampili",
+            "name": "Sapatinho de Bebê",
+            "description": "Sapatinho infantil com design confortável e cores suaves para bebês.",
+            "price": 59.90,
+            "image": "products/sacola_amarela.png",
+            "quantity": 40,
+            "subcategory": "583fc120-ca3a-4a92-95e6-e3ce45facd1b"
+        }
+    },
+    {
+        "model": "store.Product",
+        "pk": "d19679a9-4fb6-4e32-896c-bd8bda325ac5",
+        "fields": {
+            "brand": "OshKosh",
+            "name": "Macacão Infantil",
+            "description": "Macacão infantil com fecho frontal e tecido 100% algodão.",
+            "price": 129.00,
+            "image": "/products/sacola_amarela.png",
+            "quantity": 25,
+            "subcategory": "583fc120-ca3a-4a92-95e6-e3ce45facd1b"
         }
     }
 ]
