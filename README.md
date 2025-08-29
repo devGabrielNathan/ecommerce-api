@@ -45,7 +45,7 @@ Esta API REST oferece um backend completo para sistemas de e-commerce, desenvolv
 Este projeto faz parte de um ecossistema completo de e-commerce dividido em 3 repositórios:
 
 - **[ecommerce-api](https://github.com/devGabrielNathan/ecommerce-api)** - Backend API (este repositório)
-- **[ecommerce-client](https://github.com/devGabrielNathan/ecommerce-client)** - Frontend React
+- **[ecommerce-client](https://github.com/devGabrielNathan/ecommerce-client)** - Frontend
 - **[ecommerce-compose](https://github.com/devGabrielNathan/ecommerce-compose)** - Orquestração Docker
 
 ## Pré-requisitos
